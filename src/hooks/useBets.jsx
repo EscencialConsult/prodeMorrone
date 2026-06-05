@@ -1,6 +1,19 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import sheetsApi from '../services/sheetsApi.js'
 
+function normalizeMatch(match = {}) {
+  return {
+    ...match,
+    id: match.id != null ? String(match.id).trim() : match.id,
+    equipo_local: match.equipo_local || match.local || match.codigo_local || '',
+    equipo_visitante: match.equipo_visitante || match.visitante || match.codigo_visitante || '',
+    fecha_partido: match.fecha_partido || match.fecha_hora || match.fecha || '',
+    goles_local: match.goles_local ?? '',
+    goles_visitante: match.goles_visitante ?? '',
+    estado: match.estado || 'programado',
+  }
+}
+
 /* ── Hook de Apuestas ───────────────────────────────────────
    Conectado a sheetsApi → Apps Script → Google Sheets.
 
@@ -35,17 +48,27 @@ export function useBets({
         sheetsApi.partidos.listar(),
       ])
 
-      const allMatches = dataPartidos.partidos || []
+      const allMatches = (dataPartidos.partidos || []).map(normalizeMatch)
       setMatches(allMatches)
+
+      const matchesById = new Map(
+        allMatches
+          .filter(pm => pm?.id != null)
+          .map(pm => [String(pm.id).trim(), pm])
+      )
 
       const enrichedBets = (dataApuestas.apuestas || []).map(a => {
         const pIds = a.partidos_ids
           ? a.partidos_ids.split(',').map(id => id.trim()).filter(Boolean)
           : []
 
-        const mappedMatches = pIds
-          .map(id => allMatches.find(pm => pm.id === id))
-          .filter(Boolean)
+        const mappedMatches = pIds.length > 0
+          ? pIds
+            .map(id => matchesById.get(String(id).trim()))
+            .filter(Boolean)
+          : Array.isArray(a.partidos)
+            ? a.partidos
+            : []
 
         return {
           ...a,

@@ -145,7 +145,7 @@ export default function ResetPasswordPage() {
                 </div>
 
                 <h2 className="font-display mb-3" style={{ fontSize: '1.8rem', color: '#fff', letterSpacing: '.03em' }}>
-                  LINK NO VÃLIDO
+                  LINK NO VÁLIDO
                 </h2>
                 <p className="font-body text-sm mb-6 max-w-xs mx-auto" style={{ color: 'rgba(255,255,255,.55)', lineHeight: 1.5 }}>
                   {errorValidacion}
@@ -321,7 +321,7 @@ export default function ResetPasswordPage() {
                 </div>
 
                 <h2 className="font-display mb-3" style={{ fontSize: '1.8rem', color: '#fff', letterSpacing: '.03em' }}>
-                  Â¡CONTRASEÃ‘A ACTUALIZADA!
+                  ¡CONTRASEÑA ACTUALIZADA!
                 </h2>
                 <p className="font-body text-sm mb-6 max-w-xs mx-auto" style={{ color: 'rgba(255,255,255,.55)', lineHeight: 1.5 }}>
                   Tu contraseña se actualizó correctamente. Ya podés iniciar sesión con la nueva.

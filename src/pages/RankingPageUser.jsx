@@ -224,7 +224,7 @@ function BetRow({ bet, sel, onPick }) {
           {bet.titulo}
         </p>
         <p style={{fontSize:10,color:'#94a3b8',margin:0}}>
-          {bet.participantes||0} part Â· {parts} partidos
+          {bet.participantes||0} part - {parts} partidos
         </p>
       </div>
       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={sel?'#b8a06a':'#c8c9cc'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -285,9 +285,9 @@ function BannerStat({ n, label, gold }) {
    PODIO (SIN EXPANDIR)
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 const PODIO_CFG = {
-  0: { grad:'linear-gradient(145deg,#d6c08a 0%,#8f7a45 100%)', shadow:'rgba(184,160,106,.5)', border:'rgba(184,160,106,.7)', ring:'rgba(184,160,106,.3)', emoji:'ðŸ¥‡', label:'1Â°' },
-  1: { grad:'linear-gradient(145deg,#e2e8f0 0%,#94a3b8 100%)', shadow:'rgba(148,163,184,.4)', border:'rgba(148,163,184,.5)', ring:'rgba(148,163,184,.2)', emoji:'ðŸ¥ˆ', label:'2Â°' },
-  2: { grad:'linear-gradient(145deg,#fed7aa 0%,#c2720e 100%)', shadow:'rgba(194,114,14,.4)',  border:'rgba(194,114,14,.5)',  ring:'rgba(194,114,14,.2)',  emoji:'ðŸ¥‰', label:'3Â°' },
+  0: { grad:'linear-gradient(145deg,#d6c08a 0%,#8f7a45 100%)', shadow:'rgba(184,160,106,.5)', border:'rgba(184,160,106,.7)', ring:'rgba(184,160,106,.3)', emoji:'1', label:'1°' },
+  1: { grad:'linear-gradient(145deg,#e2e8f0 0%,#94a3b8 100%)', shadow:'rgba(148,163,184,.4)', border:'rgba(148,163,184,.5)', ring:'rgba(148,163,184,.2)', emoji:'2', label:'2°' },
+  2: { grad:'linear-gradient(145deg,#fed7aa 0%,#c2720e 100%)', shadow:'rgba(194,114,14,.4)',  border:'rgba(194,114,14,.5)',  ring:'rgba(194,114,14,.2)',  emoji:'3', label:'3°' },
 }
 
 function Podio({ top, miId, apuesta }) {
@@ -330,7 +330,7 @@ function Podio({ top, miId, apuesta }) {
 
               {isTop && (
                 <div style={{position:'absolute',top:-13,left:'50%',transform:'translateX(-50%)',background:'linear-gradient(90deg,#8f7a45,#b8a06a)',color:'#fff',fontSize:8,fontWeight:800,letterSpacing:'.16em',textTransform:'uppercase',padding:'3px 14px',borderRadius:99,whiteSpace:'nowrap',boxShadow:'0 2px 10px rgba(184,160,106,.5)'}}>
-                  â˜… LÍDER
+                  LÍDER
                 </div>
               )}
 
@@ -354,7 +354,7 @@ function Podio({ top, miId, apuesta }) {
               </p>
 
               <p style={{fontSize:10,color:'#94a3b8',margin:'0 0 12px'}}>
-                {u.predicciones} pred Â· {u.aciertos_exactos} âœ“
+                {u.predicciones} pred - {u.aciertos_exactos} exactos
               </p>
 
               <div style={{

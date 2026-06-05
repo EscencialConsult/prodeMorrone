@@ -13,7 +13,7 @@ export default function MorroneLogo({
   const textColor = isLight ? '#f4f6f8' : '#2f3337'
   const mutedColor = isLight ? '#c9cdd1' : '#6b7280'
 
-  const markSize = size * (markOnly ? 1.42 : 1.85)
+  const markSize = size * (markOnly ? 1.18 : 1.48)
   const wordSize = size * 0.46
 
   return (
@@ -25,7 +25,7 @@ export default function MorroneLogo({
       style={{
         display: 'inline-flex',
         alignItems: 'center',
-        gap: markOnly ? 0 : size * 0.1,
+        gap: markOnly ? 0 : size * 0.14,
         height: size,
         maxWidth: '100%',
         overflow: 'visible',
@@ -46,14 +46,15 @@ export default function MorroneLogo({
           height: size,
           overflow: 'visible',
           fontSize: markSize,
-          lineHeight: 0.72,
+          lineHeight: 0.78,
           fontWeight: 900,
-          letterSpacing: `-${size * (markOnly ? 0.09 : 0.14)}px`,
+          letterSpacing: `-${size * 0.06}px`,
           transform: 'translateY(-1px)',
         }}
       >
         <span style={{ color: markDark }}>m</span>
-        <span style={{ color: markMid, marginLeft: -size * (markOnly ? 0.1 : 0.18) }}>e</span>
+        <span style={{ color: markMid, marginLeft: -size * 0.06 }}>r</span>
+        <span style={{ color: markDark, marginLeft: -size * 0.055 }}>e</span>
       </span>
       )}
       {!markOnly && (

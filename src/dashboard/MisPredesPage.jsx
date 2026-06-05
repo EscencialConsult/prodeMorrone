@@ -193,10 +193,10 @@ export default function MisPredesPage(){
 
         {/* Stats */}
         <div className="din" style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(140px,1fr))',gap:'.85rem',marginBottom:'1.75rem',animationDelay:'60ms'}}>
-          <StatCard label="Puntos totales" value={loading?'â€”':totalPts} color="#8f7a45"/>
-          <StatCard label="Predicciones" value={loading?'â€”':totalPred} color="#6f7377"/>
-          <StatCard label="Exactos" value={loading?'â€”':totalExactos} color="#1b8a5a"/>
-          <StatCard label="Pronósticos" value={loading?'â€”':betsConPred.length} color="#202124"/>
+          <StatCard label="Puntos totales" value={loading?'-':totalPts} color="#8f7a45"/>
+          <StatCard label="Predicciones" value={loading?'-':totalPred} color="#6f7377"/>
+          <StatCard label="Exactos" value={loading?'-':totalExactos} color="#1b8a5a"/>
+          <StatCard label="Pronósticos" value={loading?'-':betsConPred.length} color="#202124"/>
         </div>
 
         {/* Filtros */}
@@ -242,8 +242,8 @@ export default function MisPredesPage(){
                       </div>
                       <p style={{...MUTED,margin:0,fontSize:'.73rem'}}>
                         {bet.partidos?.length||0} partidos
-                        {isOpenBet&&rem!=='Cerrada'?` Â· â± ${rem}`:''}
-                        {bet.estado==='finalizada'?' Â· Finalizada':''}
+                        {isOpenBet&&rem!=='Cerrada'?` - ${rem}`:''}
+                        {bet.estado==='finalizada'?' - Finalizada':''}
                       </p>
                     </div>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a9adb1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0,transition:'transform .2s',transform:isExpanded?'rotate(180deg)':'rotate(0)'}}>
@@ -263,7 +263,7 @@ export default function MisPredesPage(){
                         <Link to="/pronósticos" style={{display:'block',textAlign:'center',marginTop:'1rem',padding:'.55rem',fontFamily:"'DM Sans',sans-serif",fontSize:'.8rem',fontWeight:700,color:'#8f7a45',textDecoration:'none',borderRadius:99,border:'1px solid rgba(184,160,106,.3)',background:'rgba(184,160,106,.06)',transition:'all .17s'}}
                           onMouseEnter={e=>{e.currentTarget.style.background='rgba(184,160,106,.12)'}}
                           onMouseLeave={e=>{e.currentTarget.style.background='rgba(184,160,106,.06)'}}>
-                          Editar predicciones â†’
+                          Editar predicciones →
                         </Link>
                       )}
                     </div>

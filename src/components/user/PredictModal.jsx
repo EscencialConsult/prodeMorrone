@@ -192,8 +192,8 @@ export default function PredictModal({ bet, onSubmit, onClose, loading }) {
 
     if (empatesSinClasificado.length > 0) {
       alert(
-        'Predijiste un empate y no indicaste quién pasa por penales.\n\nFalta el clasificado en:\nâ€¢ ' +
-        empatesSinClasificado.join('\nâ€¢ ')
+        'Predijiste un empate y no indicaste quién pasa por penales.\n\nFalta el clasificado en:\n- ' +
+        empatesSinClasificado.join('\n- ')
       )
       return
     }
@@ -508,7 +508,7 @@ export default function PredictModal({ bet, onSubmit, onClose, loading }) {
                         {String(idx + 1).padStart(2, '0')}
                       </span>
                       <span className="text-[10px] font-bold tracking-wider uppercase">Partido</span>
-                      {elim && <span className="text-[9px] font-bold text-yellow-400 uppercase">Â· Elim</span>}
+                      {elim && <span className="text-[9px] font-bold text-yellow-400 uppercase">- Elim</span>}
                     </div>
                     <div className="flex items-center gap-1.5">
                       {isLive && (
@@ -557,7 +557,7 @@ export default function PredictModal({ bet, onSubmit, onClose, loading }) {
                         maxLength={2}
                         value={sc.local}
                         onChange={e => updateScore(match.id, 'local', e.target.value)}
-                        placeholder="â€”"
+                        placeholder="-"
                         disabled={isDisabled}
                         className="w-11 h-11 text-2xl text-center font-black bg-white text-slate-900 border-2 border-yellow-400 rounded-lg outline-none transition-all focus:border-yellow-300 focus:shadow-lg focus:shadow-yellow-500/30 focus:scale-105 disabled:bg-slate-200 disabled:text-slate-400 disabled:border-slate-300 disabled:cursor-not-allowed tabular-nums"
                       />
@@ -568,7 +568,7 @@ export default function PredictModal({ bet, onSubmit, onClose, loading }) {
                         maxLength={2}
                         value={sc.visitante}
                         onChange={e => updateScore(match.id, 'visitante', e.target.value)}
-                        placeholder="â€”"
+                        placeholder="-"
                         disabled={isDisabled}
                         className="w-11 h-11 text-2xl text-center font-black bg-white text-slate-900 border-2 border-yellow-400 rounded-lg outline-none transition-all focus:border-yellow-300 focus:shadow-lg focus:shadow-yellow-500/30 focus:scale-105 disabled:bg-slate-200 disabled:text-slate-400 disabled:border-slate-300 disabled:cursor-not-allowed tabular-nums"
                       />
@@ -648,7 +648,7 @@ export default function PredictModal({ bet, onSubmit, onClose, loading }) {
                   {elim && hasScore && !empate && (
                     <div className="px-3 py-2.5 bg-green-50 border-t border-dashed border-green-200">
                       <div className="flex items-center gap-2.5 px-3 py-2 bg-white rounded-lg border border-green-200">
-                        <span className="text-green-600 text-sm">âœ“</span>
+                        <span className="text-green-600 text-sm">OK</span>
                         <span className="text-[9px] uppercase tracking-wider font-bold text-slate-500">
                           Clasificado:
                         </span>
@@ -675,7 +675,7 @@ export default function PredictModal({ bet, onSubmit, onClose, loading }) {
                     <div className="px-3 py-2.5 bg-slate-100 border-t border-slate-200">
                       <div className="flex items-center gap-3 px-3 py-2 bg-slate-900 rounded-lg text-white">
                         <span className="text-[9px] font-black tracking-widest uppercase text-yellow-400">
-                          {isLive ? 'âš¡ VIVO' : 'ðŸ FINAL'}
+                          {isLive ? 'VIVO' : 'FINAL'}
                         </span>
                         <span className="text-lg font-black tabular-nums">
                           {match.goles_local ?? 0} - {match.goles_visitante ?? 0}

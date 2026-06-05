@@ -96,7 +96,7 @@ export default function ForgotPasswordPage() {
                 </div>
 
                 <h2 className="font-display mb-3" style={{ fontSize: '2rem', color: '#fff', letterSpacing: '.03em' }}>
-                  REVISÃ TU EMAIL
+                  REVISÁ TU EMAIL
                 </h2>
                 <p className="font-body text-sm mb-5 max-w-xs mx-auto" style={{ color: 'rgba(255,255,255,.55)', lineHeight: 1.5 }}>
                   Si el email está registrado, te enviamos un correo con instrucciones para restablecer tu contraseña. Revisá también la carpeta de spam.
@@ -113,7 +113,7 @@ export default function ForgotPasswordPage() {
                   onMouseEnter={e => { e.currentTarget.style.color = '#d6c08a' }}
                   onMouseLeave={e => { e.currentTarget.style.color = '#b8a06a' }}
                 >
-                  â† Volver al login
+                  ← Volver al login
                 </Link>
               </div>
             ) : (
@@ -129,7 +129,7 @@ export default function ForgotPasswordPage() {
                   </div>
                   <h1 className="font-display leading-none"
                     style={{ fontSize: '2.4rem', color: '#fff', letterSpacing: '.03em' }}>
-                    ¿OLVIDASTE<br />TU CONTRASEÃ‘A?
+                    ¿OLVIDASTE<br />TU CONTRASEÑA?
                   </h1>
                   <p className="font-body text-sm mt-2" style={{ color: 'rgba(255,255,255,.45)' }}>
                     Ingresá tu email y te enviamos un link para elegir una contraseña nueva.
@@ -229,7 +229,7 @@ export default function ForgotPasswordPage() {
                   onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(184,160,106,.5)'; e.currentTarget.style.color = '#b8a06a'; e.currentTarget.style.background = 'rgba(184,160,106,.06)' }}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,.18)'; e.currentTarget.style.color = 'rgba(255,255,255,.7)'; e.currentTarget.style.background = 'transparent' }}
                 >
-                  â† Volver al login
+                  ← Volver al login
                 </Link>
               </>
             )}

@@ -137,7 +137,7 @@ export default function RankingPage() {
 <div className="rk-in" style={{marginBottom:'1.25rem'}}>
             <div style={{display:'flex',alignItems:'baseline',gap:12}}>
             <h1 style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:'clamp(2.4rem,6vw,3.5rem)',color:'#202124',margin:'0 0 .3rem',lineHeight:1,letterSpacing:'.02em'}}>RANKING</h1>
-            {sel && <span style={{fontFamily:"'DM Sans',sans-serif",fontSize:13,color:'#94a3b8',fontWeight:500}}>â€” {sel.titulo}</span>}
+            {sel && <span style={{fontFamily:"'DM Sans',sans-serif",fontSize:13,color:'#94a3b8',fontWeight:500}}>- {sel.titulo}</span>}
           </div>
         </div>
 
@@ -147,7 +147,7 @@ export default function RankingPage() {
           <div className="rk-sidebar">
             {/* Header sidebar */}
             <div style={{padding:'20px 16px 14px',borderBottom:'1px solid rgba(255,255,255,.06)'}}>
-              <p style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:11,letterSpacing:'.2em',color:'#94a3b8',margin:'0 0 10px'}}>PRONÃ“STICOS</p>
+              <p style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:11,letterSpacing:'.2em',color:'#94a3b8',margin:'0 0 10px'}}>PRONÓSTICOS</p>
               <div style={{display:'flex',gap:6}}>
                 <Pill color="#22c55e" label={`${bets.filter(b=>isOpen(b)).length} activas`}/>
                 <Pill color="#64748b" label={`${bets.filter(b=>!isOpen(b)).length} cerradas`}/>
@@ -219,7 +219,7 @@ export default function RankingPage() {
                     {q && filasFiltradas.length===0 && <SinResultados q={q} clear={()=>setQ('')}/>}
                     {!q && tabla.length<=3 && tabla.length>0 && (
                       <p style={{textAlign:'center',fontSize:12,color:'#94a3b8',marginTop:8}}>
-                        {tabla.length===1?'Ãšnico participante de la apuesta':`Los ${tabla.length} participantes de la apuesta`}
+                        {tabla.length===1?'Único participante de la apuesta':`Los ${tabla.length} participantes de la apuesta`}
                       </p>
                     )}
                     {!q && meta.mi_posicion && !meta.esta_en_top && (
@@ -279,7 +279,7 @@ function BetRow({ bet, sel, onPick }) {
           {bet.titulo}
         </p>
         <p style={{fontSize:10,color:'#94a3b8',margin:0}}>
-          {bet.participantes||0} part Â· {parts} partidos
+          {bet.participantes||0} part - {parts} partidos
         </p>
       </div>
       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={sel?'#b8a06a':'#c8c9cc'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -364,9 +364,9 @@ function Buscador({ q, setQ }) {
    PODIO
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 const PODIO_CFG = {
-  0: { grad:'linear-gradient(145deg,#d6c08a 0%,#8f7a45 100%)', shadow:'rgba(184,160,106,.5)', border:'rgba(184,160,106,.7)', ring:'rgba(184,160,106,.3)', emoji:'ðŸ¥‡', label:'1Â°' },
-  1: { grad:'linear-gradient(145deg,#e2e8f0 0%,#94a3b8 100%)', shadow:'rgba(148,163,184,.4)', border:'rgba(148,163,184,.5)', ring:'rgba(148,163,184,.2)', emoji:'ðŸ¥ˆ', label:'2Â°' },
-  2: { grad:'linear-gradient(145deg,#fed7aa 0%,#c2720e 100%)', shadow:'rgba(194,114,14,.4)',  border:'rgba(194,114,14,.5)',  ring:'rgba(194,114,14,.2)',  emoji:'ðŸ¥‰', label:'3Â°' },
+  0: { grad:'linear-gradient(145deg,#d6c08a 0%,#8f7a45 100%)', shadow:'rgba(184,160,106,.5)', border:'rgba(184,160,106,.7)', ring:'rgba(184,160,106,.3)', emoji:'1', label:'1°' },
+  1: { grad:'linear-gradient(145deg,#e2e8f0 0%,#94a3b8 100%)', shadow:'rgba(148,163,184,.4)', border:'rgba(148,163,184,.5)', ring:'rgba(148,163,184,.2)', emoji:'2', label:'2°' },
+  2: { grad:'linear-gradient(145deg,#fed7aa 0%,#c2720e 100%)', shadow:'rgba(194,114,14,.4)',  border:'rgba(194,114,14,.5)',  ring:'rgba(194,114,14,.2)',  emoji:'3', label:'3°' },
 }
 
 function Podio({ top, miId, esAdmin, expandido, detalles, apuesta, onToggle }) {
@@ -416,7 +416,7 @@ function Podio({ top, miId, esAdmin, expandido, detalles, apuesta, onToggle }) {
               {/* Badge posición */}
               {isTop && (
                 <div style={{position:'absolute',top:-13,left:'50%',transform:'translateX(-50%)',background:'linear-gradient(90deg,#8f7a45,#b8a06a)',color:'#fff',fontSize:8,fontWeight:800,letterSpacing:'.16em',textTransform:'uppercase',padding:'3px 14px',borderRadius:99,whiteSpace:'nowrap',boxShadow:'0 2px 10px rgba(184,160,106,.5)'}}>
-                  â˜… LÍDER
+                  LÍDER
                 </div>
               )}
 
@@ -444,7 +444,7 @@ function Podio({ top, miId, esAdmin, expandido, detalles, apuesta, onToggle }) {
 
               {/* Sub */}
               <p style={{fontSize:10,color:'#94a3b8',margin:'0 0 12px'}}>
-                {u.predicciones} pred Â· {u.aciertos_exactos} âœ“
+                {u.predicciones} pred - {u.aciertos_exactos} exactos
               </p>
 
               {/* Puntos â€” el elemento más importante */}
@@ -608,7 +608,7 @@ function DetallePanel({ nombre, det, apuesta, onClose, inline, style: extraStyle
   const loadingUI = (
     <div style={base}>
       <div style={{background:'#202124',padding:'10px 16px',display:'flex',alignItems:'center',gap:8}}>
-        <span style={{fontSize:9,fontWeight:700,textTransform:'uppercase',letterSpacing:'.14em',color:'rgba(184,160,106,.7)'}}>Cargandoâ€¦</span>
+        <span style={{fontSize:9,fontWeight:700,textTransform:'uppercase',letterSpacing:'.14em',color:'rgba(184,160,106,.7)'}}>Cargando...</span>
       </div>
       <div style={{background:'#f6f5f2',padding:'12px 14px',display:'flex',flexDirection:'column',gap:4}}>
         {[1,2,3].map(i=><div key={i} className="rk-sk" style={{height:42}}/>)}
@@ -726,7 +726,7 @@ function FilaPartido({ partido, pred, apuesta }) {
           {partido.bandera_visitante && <img src={partido.bandera_visitante} alt="" style={{width:14,height:10,objectFit:'cover',borderRadius:1,border:'1px solid #e8e3db',flexShrink:0}}/>}
           {live && <span style={{fontSize:7,fontWeight:800,color:'#f43f5e',background:'rgba(244,63,94,.08)',border:'1px solid rgba(244,63,94,.2)',borderRadius:99,padding:'1px 5px',flexShrink:0}}>EN VIVO</span>}
         </div>
-        <p style={{fontSize:9,color:'#94a3b8',margin:0}}>{partido.fase||''}{partido.fecha_partido?` Â· ${fmtFecha(partido.fecha_partido)}`:''}</p>
+        <p style={{fontSize:9,color:'#94a3b8',margin:0}}>{partido.fase||''}{partido.fecha_partido?` - ${fmtFecha(partido.fecha_partido)}`:''}</p>
       </div>
 
       {/* Predicción */}
@@ -734,7 +734,7 @@ function FilaPartido({ partido, pred, apuesta }) {
         <p style={{fontSize:7,fontWeight:700,textTransform:'uppercase',letterSpacing:'.12em',color:'#b8c0cc',margin:'0 0 1px'}}>Pred.</p>
         {pred
           ? <p style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:14,color:'#8f7a45',margin:0,lineHeight:1}}>{pred.pred_local}-{pred.pred_visitante}</p>
-          : <p style={{fontSize:10,color:'#b8c0cc',margin:0,fontStyle:'italic'}}>â€”</p>
+          : <p style={{fontSize:10,color:'#b8c0cc',margin:0,fontStyle:'italic'}}>-</p>
         }
       </div>
 
@@ -753,7 +753,7 @@ function FilaPartido({ partido, pred, apuesta }) {
           ? <span style={{display:'inline-block',background:`${catColor}14`,color:catColor,fontSize:10,fontWeight:700,padding:'3px 7px',borderRadius:99,border:`1px solid ${catColor}28`,minWidth:28,textAlign:'center'}}>
               +{parseInt(pred.puntos)||0}
             </span>
-          : <span style={{fontSize:10,color:'#b8c0cc'}}>â€”</span>
+          : <span style={{fontSize:10,color:'#b8c0cc'}}>-</span>
         }
       </div>
     </div>

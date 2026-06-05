@@ -74,8 +74,8 @@ function BetCard({bet,predsMap,onPredict}){
           <h3 style={{fontWeight:700,fontSize:'1rem',color:'#202124',margin:'0 0 .3rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{bet.titulo}</h3>
           <p style={{...MUTED,fontSize:'.75rem',margin:0}}>
             {mc} {mc===1?'partido':'partidos'}
-            {bet.premio?` Â· ðŸ† ${bet.premio}`:''}
-            {open&&rem!=='Cerrada'?` Â· â± ${rem}`:''}
+            {bet.premio ? ` - Premio: ${bet.premio}` : ''}
+            {open && rem !== 'Cerrada' ? ` - ${rem}` : ''}
           </p>
         </div>
         <span style={{display:'inline-flex',alignItems:'center',gap:'.35rem',padding:'.28rem .7rem',borderRadius:99,fontSize:'.65rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'.08em',background:s.bg,color:s.color,border:`1px solid ${s.border}`,flexShrink:0,whiteSpace:'nowrap'}}>
@@ -192,7 +192,7 @@ const filtered = bets.filter(b => {
             <div>
               <h1 className="font-display leading-none tracking-wide mb-2"
                 style={{ fontSize: 'clamp(2.8rem,7vw,4rem)', color: '#202124' }}>
-                PRONÃ“STICOS
+                PRONÓSTICOS
               </h1>
 <p className="font-body text-sm" style={{ color: '#6f7377' }}>
   {filtered.length} {filtered.length === 1 ? 'pronóstico disponible' : 'pronósticos disponibles'}

@@ -108,7 +108,7 @@ function PartidoRow({ match, pred }) {
                             Sin predicción
                         </p>
                         <p className="font-display text-lg text-[var(--color-text-faint)] leading-none">
-                            â€” - â€”
+                            - - -
                         </p>
                     </div>
                 )}
@@ -219,7 +219,7 @@ function BetCardItem({ bet, predsDeLaApuesta, expanded, onToggle }) {
                             </span>
                             {bet.estado === 'finalizada' && (
                                 <>
-                                    <span className="text-[var(--color-text-faint)]">Â·</span>
+                                    <span className="text-[var(--color-text-faint)]">-</span>
                                     <span>
                                         <span className="text-[var(--color-warn)] font-display text-sm">{puntosAcumulados}</span>
                                         {' '}puntos
@@ -228,7 +228,7 @@ function BetCardItem({ bet, predsDeLaApuesta, expanded, onToggle }) {
                             )}
                             {bet.premio && (
                                 <>
-                                    <span className="text-[var(--color-text-faint)]">Â·</span>
+                                    <span className="text-[var(--color-text-faint)]">-</span>
                                     <span className="truncate">Premio: {bet.premio}</span>
                                 </>
                             )}

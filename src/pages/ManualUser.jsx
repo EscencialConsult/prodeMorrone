@@ -142,7 +142,7 @@ function Callout({ type='info', title, children }) {
           fontSize:9.5, textTransform:'uppercase', letterSpacing:'.22em',
           color:v.accent, marginBottom:5,
         }}>
-          {v.tone}{title && ' Â· '}{title}
+          {v.tone}{title && ' - '}{title}
         </div>
         <div style={{
           fontFamily:"'DM Sans',sans-serif",
@@ -345,7 +345,7 @@ export default function ManualUser() {
                 textTransform:'uppercase', letterSpacing:'.2em',
                 color:C.ink500, marginBottom:12,
               }}>
-                Prode MRE Â· Mundial 2026
+                Prode MRE - Mundial 2026
               </div>
               <span style={{
                 display:'inline-flex', alignItems:'center', gap:6,
@@ -422,7 +422,7 @@ export default function ManualUser() {
                 color:C.goldDk, marginBottom:18,
               }}>
                 <span style={{ width:24, height:1, background:C.goldDk }}/>
-                Manual del Participante Â· v1.0
+                Manual del Participante - v1.0
               </span>
 
               <h1 style={{
@@ -431,11 +431,11 @@ export default function ManualUser() {
                 color:C.navy, letterSpacing:'.01em',
                 lineHeight:.92, margin:'0 0 12px',
               }}>
-                PARTICIPÃ Y<br/>
+                PARTICIPÁ Y<br/>
                 <span style={{
                   color:C.goldDk,
                   textShadow:'0 0 32px rgba(184,160,106,.25)',
-                }}>GANÃ PREMIOS</span>
+                }}>GANÁ PREMIOS</span>
               </h1>
 
               <p style={{
@@ -476,7 +476,7 @@ export default function ManualUser() {
 
             {/* 02 PRONÓSTICOS */}
             <section id="manual-pronósticos" style={{ marginBottom:48, scrollMarginTop:24 }}>
-              <SectionHeader num="02" kicker="Usar el Sistema" title="SECCIÃ“N 1: PRONÓSTICOS" icon={ICONS.pronósticos}/>
+              <SectionHeader num="02" kicker="Usar el Sistema" title="SECCIÓN 1: PRONÓSTICOS" icon={ICONS.pronósticos}/>
               
               <h3 style={{
                 fontFamily:"'Bebas Neue',sans-serif", fontSize:22,
@@ -557,7 +557,7 @@ export default function ManualUser() {
 
             {/* 03 FIXTURE */}
             <section id="manual-fixture" style={{ marginBottom:48, scrollMarginTop:24 }}>
-              <SectionHeader num="03" kicker="Usar el Sistema" title="SECCIÃ“N 2: FIXTURE" icon={ICONS.fixture}/>
+              <SectionHeader num="03" kicker="Usar el Sistema" title="SECCIÓN 2: FIXTURE" icon={ICONS.fixture}/>
               
               <h3 style={{
                 fontFamily:"'Bebas Neue',sans-serif", fontSize:22,
@@ -602,7 +602,7 @@ export default function ManualUser() {
 
             {/* 04 MIS PREDICCIONES */}
             <section id="manual-predicciones" style={{ marginBottom:48, scrollMarginTop:24 }}>
-              <SectionHeader num="04" kicker="Usar el Sistema" title="SECCIÃ“N 3: MIS PREDICCIONES" icon={ICONS.predes}/>
+              <SectionHeader num="04" kicker="Usar el Sistema" title="SECCIÓN 3: MIS PREDICCIONES" icon={ICONS.predes}/>
               
               <h3 style={{
                 fontFamily:"'Bebas Neue',sans-serif", fontSize:22,
@@ -614,7 +614,7 @@ export default function ManualUser() {
               <ul style={{ margin:'14px 0', paddingLeft:24 }}>
                 <li style={{ fontFamily:"'DM Sans',sans-serif", fontSize:14, color:C.ink700, marginBottom:8 }}><B>Puntos totales</B> acumulados en todas las pronósticos en las que participaste</li>
                 <li style={{ fontFamily:"'DM Sans',sans-serif", fontSize:14, color:C.ink700, marginBottom:8 }}><B>Cantidad de predicciones</B> que cargaste en total</li>
-                <li style={{ fontFamily:"'DM Sans',sans-serif", fontSize:14, color:C.ink700, marginBottom:8 }}><B>Exactos</B> â€” cuántas veces acertaste el marcador exacto</li>
+                <li style={{ fontFamily:"'DM Sans',sans-serif", fontSize:14, color:C.ink700, marginBottom:8 }}><B>Exactos</B> - cuántas veces acertaste el marcador exacto</li>
                 <li style={{ fontFamily:"'DM Sans',sans-serif", fontSize:14, color:C.ink700, marginBottom:8 }}><B>Cantidad de pronósticos</B> en las que participaste</li>
               </ul>
 
@@ -695,11 +695,11 @@ export default function ManualUser() {
                 fontFamily:"'Bebas Neue',sans-serif", fontSize:14,
                 color:C.goldDk, letterSpacing:'.3em',
                 marginBottom:8,
-              }}>Â· FIN DEL MANUAL Â·</div>
+              }}>FIN DEL MANUAL</div>
               <p style={{
                 fontSize:12, color:C.ink500, margin:0,
               }}>
-                Prode MRE â€” Manual del Participante Â· Mundial 2026
+                Prode MRE - Manual del Participante - Mundial 2026
               </p>
             </div>
 

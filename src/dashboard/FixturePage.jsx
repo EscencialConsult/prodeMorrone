@@ -285,7 +285,7 @@
                     </>
                   ) : (
                     <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.1rem', color: C.mute, letterSpacing: '.04em' }}>
-                      â€” : â€”
+                      - : -
                     </div>
                   )}
                 </div>
@@ -448,7 +448,7 @@
                 className="mb-1 text-[0.62rem] font-extrabold uppercase tracking-[0.3em]"
                 style={{ color: C.goldHi, fontFamily: "'DM Sans',sans-serif" }}
               >
-                FIFA World Cup Â· 2026
+                FIFA World Cup - 2026
               </div>
               <h2
                 className="text-[1.6rem] font-black leading-none tracking-tight"
@@ -464,7 +464,7 @@
                 className="mt-1.5 text-[0.72rem] font-medium"
                 style={{ color: C.mute, fontFamily: "'DM Sans',sans-serif" }}
               >
-                48 equipos Â· 12 grupos Â· Clasifican los 2 primeros
+                48 equipos - 12 grupos - Clasifican los 2 primeros
               </p>
             </div>
           </div>
@@ -669,7 +669,7 @@
                 margin: '4px 0 0',
               }}
             >
-              {g.sel.length} equipos Â· {partidosJugados}/{g.partidos.length} jugados
+              {g.sel.length} equipos - {partidosJugados}/{g.partidos.length} jugados
             </p>
           </div>
         </div>
@@ -929,7 +929,7 @@
     const groups = useMemo(()=>{
       const map={}
       filtered.forEach(m=>{
-        const key=[FASES[m.fase]||m.fase||'Sin fase',m.jornada].filter(Boolean).join(' Â· ')
+        const key=[FASES[m.fase]||m.fase||'Sin fase',m.jornada].filter(Boolean).join(' - ')
         if(!map[key]) map[key]=[]
         map[key].push(m)
       })
