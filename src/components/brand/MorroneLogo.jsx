@@ -35,7 +35,6 @@ export default function MorroneLogo({
         letterSpacing: '-0.08em',
         textTransform: 'lowercase',
         fontFamily: 'Inter',
-        letterSpacing: -0.08,
         ...style,
       }}
     >

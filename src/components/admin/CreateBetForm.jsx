@@ -322,7 +322,7 @@ export default function CreateBetForm({ onSubmit, loading, matches = [] }) {
         value={form.titulo}
         onChange={e => setForm(p => ({ ...p, titulo: e.target.value }))}
         required
-        placeholder="Ej: Fase de grupos Â· Jornada 1"
+        placeholder="Ej: Fase de grupos - Grupo A - Jornada 1"
       />
 
       {/* â”€â”€ SECCIÃ“N PARTIDOS â”€â”€ */}
@@ -407,8 +407,8 @@ export default function CreateBetForm({ onSubmit, loading, matches = [] }) {
             onMouseEnter={e => { if (partidosFiltrados.length > 0) e.currentTarget.style.color = '#b8a06a' }}
             onMouseLeave={e => { e.currentTarget.style.color = '#8f7a45' }}>
             {partidosFiltrados.every(m => form.partidos_ids.includes(m.id)) && partidosFiltrados.length > 0
-              ? `âœ• Deseleccionar visibles`
-              : `âœ“ Seleccionar visibles`}
+              ? `Deseleccionar visibles`
+              : `Seleccionar visibles`}
           </button>
           {seleccionados > 0 && (
             <button type="button" onClick={limpiarSeleccion}
@@ -441,7 +441,7 @@ export default function CreateBetForm({ onSubmit, loading, matches = [] }) {
                 </p>
               </div>
             ) : agrupados.map(gr => {
-              const header = [LABEL_FASE[gr.fase] || gr.fase, gr.jornada, gr.grupo].filter(Boolean).join(' Â· ')
+              const header = [LABEL_FASE[gr.fase] || gr.fase, gr.grupo, gr.jornada].filter(Boolean).join(' - ')
               const faseTerminada = faseYaTerminada(partidosDisponibles, gr.fase)
               
               return (
@@ -679,7 +679,7 @@ export default function CreateBetForm({ onSubmit, loading, matches = [] }) {
         ) : (
           <>
             Crear pronóstico
-            {seleccionados > 0 && ` Â· ${seleccionados} ${seleccionados === 1 ? 'partido' : 'partidos'}`}
+            {seleccionados > 0 && ` - ${seleccionados} ${seleccionados === 1 ? 'partido' : 'partidos'}`}
           </>
         )}
       </button>

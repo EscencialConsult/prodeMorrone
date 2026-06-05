@@ -274,7 +274,7 @@ export default function CreateBetForm({ onSubmit, loading, matches = [] }) {
           value={form.titulo}
           onChange={e => setForm(p => ({ ...p, titulo: e.target.value }))}
           required
-          placeholder="Ej: Fase de grupos Â· Jornada 1"
+          placeholder="Ej: Fase de grupos - Grupo A - Jornada 1"
         />
 
         {/* Tipo â€” solo Plan Pro */}
@@ -437,8 +437,8 @@ export default function CreateBetForm({ onSubmit, loading, matches = [] }) {
             onMouseEnter={e => { if (partidosFiltrados.length > 0) e.currentTarget.style.color = '#b8a06a' }}
             onMouseLeave={e => { e.currentTarget.style.color = '#8f7a45' }}>
             {partidosFiltrados.every(m => form.partidos_ids.includes(m.id)) && partidosFiltrados.length > 0
-              ? `âœ• Deseleccionar visibles (${partidosFiltrados.length})`
-              : `âœ“ Seleccionar visibles (${partidosFiltrados.length})`}
+              ? `Deseleccionar visibles (${partidosFiltrados.length})`
+              : `Seleccionar visibles (${partidosFiltrados.length})`}
           </button>
           {seleccionados > 0 && (
             <button type="button" onClick={limpiarSeleccion}
@@ -458,7 +458,7 @@ export default function CreateBetForm({ onSubmit, loading, matches = [] }) {
               No hay partidos que coincidan.
             </p>
           ) : agrupados.map(gr => {
-            const header = [LABEL_FASE[gr.fase] || gr.fase, gr.jornada, gr.grupo].filter(Boolean).join(' Â· ')
+            const header = [LABEL_FASE[gr.fase] || gr.fase, gr.grupo, gr.jornada].filter(Boolean).join(' - ')
             return (
               <div key={`${gr.fase}-${gr.jornada}-${gr.grupo}`}>
                 <div className="px-3 py-1.5 flex items-center justify-between sticky top-0 z-10"
@@ -555,7 +555,7 @@ export default function CreateBetForm({ onSubmit, loading, matches = [] }) {
       >
         {loading
           ? <><span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />Creando...</>
-          : <>Crear pronóstico{seleccionados > 0 && ` Â· ${seleccionados} partidos`}</>
+          : <>Crear pronóstico{seleccionados > 0 && ` - ${seleccionados} partidos`}</>
         }
       </button>
     </form>
