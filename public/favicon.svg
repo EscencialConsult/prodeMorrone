@@ -1,0 +1,22 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="4" y="4" width="56" height="56" rx="14" fill="#111214"/>
+  <rect x="5.5" y="5.5" width="53" height="53" rx="12.5" stroke="#B8A06A" stroke-opacity=".72" stroke-width="3"/>
+  <text
+    x="7"
+    y="46"
+    fill="#F4F6F8"
+    font-family="Arial Black, Arial, Helvetica, sans-serif"
+    font-size="43"
+    font-weight="900"
+    letter-spacing="-8"
+  >m</text>
+  <text
+    x="31"
+    y="46"
+    fill="#C9CDD1"
+    font-family="Arial Black, Arial, Helvetica, sans-serif"
+    font-size="43"
+    font-weight="900"
+    letter-spacing="-8"
+  >e</text>
+</svg>
