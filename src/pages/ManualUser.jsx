@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AppShell from '../dashboard/AppShell.jsx'
 
@@ -7,7 +7,7 @@ import AppShell from '../dashboard/AppShell.jsx'
    Mismo diseño editorial que el manual admin
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-/* â”€â”€ Paleta â”€â”€ */
+/* ── Paleta ── */
 const C = {
   navyDeep:  '#111214',
   navy:      '#202124',
@@ -19,7 +19,7 @@ const C = {
   goldDk:    '#8f7a45',
   cream:     '#f6f5f2',
   cream2:    '#dedbd4',
-  cream3:    '#e8e0c9',
+  cream3:    '#ece9e2',
   ink700:    '#33363a',
   ink500:    '#6f7377',
   ink300:    '#a9adb1',
@@ -28,14 +28,14 @@ const C = {
   white:     '#ffffff',
 }
 
-/* â”€â”€ Estructura de secciones â”€â”€ */
+/* ── Estructura de secciones ── */
 const SECTIONS = [
-  { id:'intro',        num:'01', label:'¿Qué puedo hacer?',      group:'Introducción'        },
-  { id:'pronósticos',     num:'02', label:'Pronósticos',               group:'Usar el Sistema'     },
-  { id:'fixture',      num:'03', label:'Fixture',                group:'Usar el Sistema'     },
-  { id:'predicciones', num:'04', label:'Mis Predicciones',       group:'Usar el Sistema'     },
-  { id:'puntos',       num:'05', label:'Sistema de Puntos',      group:'Referencia'          },
-  { id:'faq',          num:'06', label:'Preguntas Frecuentes',   group:'Referencia'          },
+  { id:'intro',            num:'01', label:'¿Qué puedo hacer?',      group:'Introducción'        },
+  { id:'apuestas',         num:'02', label:'Apuestas',               group:'Usar el Sistema'     },
+  { id:'fixture',          num:'03', label:'Fixture',                group:'Usar el Sistema'     },
+  { id:'mis-predicciones', num:'04', label:'Mis Prodes',             group:'Usar el Sistema'     },
+  { id:'puntos',           num:'05', label:'Sistema de Puntos',      group:'Referencia'          },
+  { id:'faq',              num:'06', label:'Preguntas Frecuentes',   group:'Referencia'          },
 ]
 
 const GROUPS = ['Introducción','Usar el Sistema','Referencia']
@@ -262,7 +262,7 @@ const Icon = (path) => (
 
 const ICONS = {
   intro:    Icon(<><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></>),
-  pronósticos: Icon(<><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></>),
+  apuestas: Icon(<><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></>),
   fixture:  Icon(<><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></>),
   predes:   Icon(<><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></>),
   puntos:   Icon(<><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></>),
@@ -345,7 +345,7 @@ export default function ManualUser() {
                 textTransform:'uppercase', letterSpacing:'.2em',
                 color:C.ink500, marginBottom:12,
               }}>
-                Prode MRE - Mundial 2026
+                Prode ONE - Mundial 2026
               </div>
               <span style={{
                 display:'inline-flex', alignItems:'center', gap:6,
@@ -458,32 +458,32 @@ export default function ManualUser() {
                 gap:14, margin:'24px 0',
               }}>
                 <StateCard tag="Sección 1" tagColor={C.blueMed} accent={C.blueMed}
-                  name="Pronósticos"
-                  desc="Donde cargás tus predicciones"/>
+                  name="Apuestas"
+                  desc="Donde cargás tus prodes"/>
                 <StateCard tag="Sección 2" tagColor={C.green} accent={C.green}
                   name="Fixture"
                   desc="Donde ves todos los partidos del Mundial"/>
                 <StateCard tag="Sección 3" tagColor={C.goldDk} accent={C.gold}
-                  name="Mis Predicciones"
+                  name="Mis Prodes"
                   desc="Donde seguís tu puntaje y tus aciertos"/>
               </div>
               <P>
-                Eso es todo. No podés crear pronósticos, aprobar usuarios ni modificar nada del sistema. <B>Solo predecís y seguís tus resultados.</B>
+                Eso es todo. No podés crear apuestas, aprobar usuarios ni modificar nada del sistema. <B>Solo predecís y seguís tus resultados.</B>
               </P>
             </section>
 
             <Divider/>
 
-            {/* 02 PRONÓSTICOS */}
-            <section id="manual-pronósticos" style={{ marginBottom:48, scrollMarginTop:24 }}>
-              <SectionHeader num="02" kicker="Usar el Sistema" title="SECCIÓN 1: PRONÓSTICOS" icon={ICONS.pronósticos}/>
+            {/* 02 APUESTAS */}
+            <section id="manual-apuestas" style={{ marginBottom:48, scrollMarginTop:24 }}>
+              <SectionHeader num="02" kicker="Usar el Sistema" title="SECCIÓN 1: APUESTAS" icon={ICONS.apuestas}/>
               
               <h3 style={{
                 fontFamily:"'Bebas Neue',sans-serif", fontSize:22,
                 color:C.navy, margin:'24px 0 12px', letterSpacing:'.03em',
-              }}>¿Qué es un pronóstico?</h3>
+              }}>¿Qué es una apuesta?</h3>
               <P>
-                Una pronóstico es un conjunto de partidos agrupados por el admin para que puedas predecir. Por ejemplo: <I>"Fase de Grupos"</I>, <I>"Octavos de Final"</I>, <I>"Final"</I>, etc. Cada pronóstico tiene un premio definido para quien más puntos acumule en esos partidos.
+                Una apuesta es un conjunto de partidos agrupados por el admin para que puedas predecir. Por ejemplo: <I>"Fase de Grupos"</I>, <I>"Octavos de Final"</I>, <I>"Final"</I>, etc. Cada apuesta tiene un premio definido para quien más puntos acumule en esos partidos.
               </P>
 
               <h3 style={{
@@ -492,10 +492,10 @@ export default function ManualUser() {
               }}>¿Cómo cargar una predicción?</h3>
               <div style={{ display:'flex', flexDirection:'column', gap:8, margin:'14px 0' }}>
                 {[
-                  'Entrá a la sección Pronósticos desde el menú.',
-                  'Vas a ver las pronósticos disponibles con su estado (abierta, cerrada, finalizada).',
-                  'Hacé clic en un pronóstico abierta.',
-                  'Dentro de el pronóstico, vas a ver la lista de partidos que la componen.',
+                  'Entrá a la sección Apuestas desde el menú.',
+                  'Vas a ver las apuestas disponibles con su estado (abierta, cerrada, finalizada).',
+                  'Hacé clic en una apuesta abierta.',
+                  'Dentro de la apuesta, vas a ver la lista de partidos que la componen.',
                   'Para cada partido, ingresá cuántos goles creés que va a hacer cada equipo. Por ejemplo: Argentina 2 - Francia 1.',
                   'Guardá tu predicción con el botón correspondiente.',
                 ].map((item,i)=>(
@@ -509,7 +509,7 @@ export default function ManualUser() {
                       background:`linear-gradient(135deg,${C.navy},${C.navySoft})`,
                       color:C.gold,
                       fontFamily:"'Bebas Neue',sans-serif", fontSize:14,
-                      display:'flex', alignItems:'center', justifyContent:'center',
+                      display:'flex', alignItems:'center', justifycontent:'center',
                       letterSpacing:'.04em',
                     }}>{i+1}</span>
                     <span style={{ fontSize:14, color:C.ink700 }}>{item}</span>
@@ -517,13 +517,13 @@ export default function ManualUser() {
                 ))}
               </div>
               <Callout type="warn">
-                <B>Podés modificar tu predicción cuantas veces quieras mientras el pronóstico esté abierta.</B> Una vez que el pronóstico se cierra o el partido empieza, ya no podés cambiar nada.
+                <B>Podés modificar tu predicción cuantas veces quieras mientras la apuesta esté abierta.</B> Una vez que la apuesta se cierra o el partido empieza, ya no podés cambiar nada.
               </Callout>
 
               <h3 style={{
                 fontFamily:"'Bebas Neue',sans-serif", fontSize:22,
                 color:C.navy, margin:'24px 0 12px', letterSpacing:'.03em',
-              }}>Estados de un pronóstico</h3>
+              }}>Estados de una apuesta</h3>
               <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(250px,1fr))', gap:12, margin:'18px 0' }}>
                 <StateCard tag="Estado 1" tagColor={C.green} accent={C.green}
                   name="Abierta"
@@ -533,7 +533,7 @@ export default function ManualUser() {
                   desc="El período de predicciones terminó. Los partidos están por jugarse o ya se están jugando. No podés modificar nada."/>
                 <StateCard tag="Estado 3" tagColor={C.goldDk} accent={C.gold}
                   name="Finalizada"
-                  desc="Todos los partidos terminaron y los puntos ya están calculados. Podés ver cuántos puntos sumaste en esa pronóstico y tu posición en el ranking."/>
+                  desc="Todos los partidos terminaron y los puntos ya están calculados. Podés ver cuántos puntos sumaste en esa apuesta y tu posición en el ranking."/>
               </div>
 
               <h3 style={{
@@ -549,7 +549,7 @@ export default function ManualUser() {
                 color:C.navy, margin:'24px 0 12px', letterSpacing:'.03em',
               }}>¿Hasta cuándo puedo predecir?</h3>
               <P>
-                Cada pronóstico tiene una <B>fecha y hora de cierre</B> visible en la tarjeta. El sistema también muestra el tiempo restante en formato "2d 5h" o "45m". Una vez que ese contador llega a cero, el pronóstico se cierra sola y no podés cargar más.
+                Cada apuesta tiene una <B>fecha y hora de cierre</B> visible en la tarjeta. El sistema también muestra el tiempo restante en formato "2d 5h" o "45m". Una vez que ese contador llega a cero, la apuesta se cierra sola y no podés cargar más.
               </P>
             </section>
 
@@ -578,7 +578,7 @@ export default function ManualUser() {
                 color:C.navy, margin:'24px 0 12px', letterSpacing:'.03em',
               }}>¿Para qué sirve?</h3>
               <P>
-                El fixture es <B>solo de consulta</B>. No podés predecir desde acá, solo podés ver la información de los partidos. Te sirve para saber cuándo juegan los equipos y planificar tus predicciones antes del cierre de cada pronóstico.
+                El fixture es <B>solo de consulta</B>. No podés predecir desde acá, solo podés ver la información de los partidos. Te sirve para saber cuándo juegan los equipos y planificar tus predicciones antes del cierre de cada apuesta.
               </P>
 
               <h3 style={{
@@ -588,10 +588,10 @@ export default function ManualUser() {
               <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))', gap:12, margin:'18px 0' }}>
                 <StateCard tagColor={C.ink300} accent={C.ink300}
                   name="Próximo"
-                  desc="Todavía no empezó. Si el pronóstico está abierta, podés predecir este partido."/>
+                  desc="Todavía no empezó. Si la apuesta está abierta, podés predecir este partido."/>
                 <StateCard tagColor={C.green} accent={C.green}
                   name="En vivo"
-                  desc="El partido está en curso. Si ya cargaste predicción, podés ver tu pronóstico junto al marcador en tiempo real."/>
+                  desc="El partido está en curso. Si ya cargaste predicción, podés ver tu prode junto al marcador en tiempo real."/>
                 <StateCard tagColor={C.goldDk} accent={C.gold}
                   name="Finalizado"
                   desc="El partido terminó. Vas a ver el resultado final y, si predijiste, cuántos puntos obtuviste."/>
@@ -600,22 +600,22 @@ export default function ManualUser() {
 
             <Divider/>
 
-            {/* 04 MIS PREDICCIONES */}
-            <section id="manual-predicciones" style={{ marginBottom:48, scrollMarginTop:24 }}>
-              <SectionHeader num="04" kicker="Usar el Sistema" title="SECCIÓN 3: MIS PREDICCIONES" icon={ICONS.predes}/>
+            {/* 04 MIS PRODES */}
+            <section id="manual-mis-predicciones" style={{ marginBottom:48, scrollMarginTop:24 }}>
+              <SectionHeader num="04" kicker="Usar el Sistema" title="SECCIÓN 3: MIS PRODES" icon={ICONS.predes}/>
               
               <h3 style={{
                 fontFamily:"'Bebas Neue',sans-serif", fontSize:22,
                 color:C.navy, margin:'24px 0 12px', letterSpacing:'.03em',
               }}>¿Qué muestra esta sección?</h3>
               <P>
-                Acá ves todo tu <B>historial de predicciones</B>. Es tu panel personal donde podés seguir tu rendimiento a lo largo del experiencia. Muestra:
+                Acá ves todo tu <B>historial de prodes</B>. Es tu panel personal donde podés seguir tu rendimiento a lo largo del torneo. Muestra:
               </P>
               <ul style={{ margin:'14px 0', paddingLeft:24 }}>
-                <li style={{ fontFamily:"'DM Sans',sans-serif", fontSize:14, color:C.ink700, marginBottom:8 }}><B>Puntos totales</B> acumulados en todas las pronósticos en las que participaste</li>
-                <li style={{ fontFamily:"'DM Sans',sans-serif", fontSize:14, color:C.ink700, marginBottom:8 }}><B>Cantidad de predicciones</B> que cargaste en total</li>
+                <li style={{ fontFamily:"'DM Sans',sans-serif", fontSize:14, color:C.ink700, marginBottom:8 }}><B>Puntos totales</B> acumulados en todas las apuestas en las que participaste</li>
+                <li style={{ fontFamily:"'DM Sans',sans-serif", fontSize:14, color:C.ink700, marginBottom:8 }}><B>Cantidad de prodes</B> que cargaste en total</li>
                 <li style={{ fontFamily:"'DM Sans',sans-serif", fontSize:14, color:C.ink700, marginBottom:8 }}><B>Exactos</B> - cuántas veces acertaste el marcador exacto</li>
-                <li style={{ fontFamily:"'DM Sans',sans-serif", fontSize:14, color:C.ink700, marginBottom:8 }}><B>Cantidad de pronósticos</B> en las que participaste</li>
+                <li style={{ fontFamily:"'DM Sans',sans-serif", fontSize:14, color:C.ink700, marginBottom:8 }}><B>Cantidad de apuestas</B> en las que participaste</li>
               </ul>
 
               <h3 style={{
@@ -623,7 +623,7 @@ export default function ManualUser() {
                 color:C.navy, margin:'24px 0 12px', letterSpacing:'.03em',
               }}>¿Cómo se organiza?</h3>
               <P>
-                Las pronósticos aparecen como tarjetas. Podés expandir cada una haciendo clic para ver el detalle partido por partido. En cada partido vas a ver:
+                Las apuestas aparecen como tarjetas. Podés expandir cada una haciendo clic para ver el detalle partido por partido. En cada partido vas a ver:
               </P>
               <ul style={{ margin:'14px 0', paddingLeft:24 }}>
                 <li style={{ fontFamily:"'DM Sans',sans-serif", fontSize:14, color:C.ink700, marginBottom:8 }}>Tu predicción (ej: 2-1)</li>
@@ -637,7 +637,7 @@ export default function ManualUser() {
                 color:C.navy, margin:'24px 0 12px', letterSpacing:'.03em',
               }}>¿Dónde veo mi posición en el ranking?</h3>
               <P>
-                Desde <B>Mis Predicciones</B> ves tus puntos. Para ver tu posición exacta respecto a los demás, vas a la sección <B>Ranking</B> desde el menú. Ahí podés seleccionar un pronóstico y ver la tabla completa con todos los participantes. Tu posición aparece destacada, y si estás fuera del top visible, el sistema muestra tu fila pegada al final para que siempre sepas dónde estás.
+                Desde <B>Mis Prodes</B> ves tus puntos. Para ver tu posición exacta respecto a los demás, vas a la sección <B>Ranking</B> desde el menú. Ahí podés seleccionar una apuesta y ver la tabla completa con todos los participantes. Tu posición aparece destacada, y si estás fuera del top visible, el sistema muestra tu fila pegada al final para que siempre sepas dónde estás.
               </P>
             </section>
 
@@ -654,7 +654,7 @@ export default function ManualUser() {
                 { tipo:'Diferencia',      pts:'+3 pts', desc:'Acertás la diferencia de goles pero no el marcador exacto. Ejemplo: predices 2-1 y el resultado es 3-2 (ambos tienen diferencia de 1 gol).', color:C.goldDk },
                 { tipo:'Resultado',       pts:'+1 pt',  desc:'Acertás quién gana o que va a empatar, pero sin acertar la diferencia ni el marcador. Ejemplo: predices 2-1 y el resultado es 3-1 (acertaste que ganaba ese equipo).', color:C.blueMed },
                 { tipo:'Falla',           pts:'0 pts',  desc:'No acertás el resultado. Predices que gana uno y gana el otro, o predices empate y hay un ganador, etc.',              color:C.red },
-                { tipo:'Sin predicción',  pts:'0 pts',  desc:'No cargaste ningún pronóstico para ese partido.',                                    color:C.ink300 },
+                { tipo:'Sin predicción',  pts:'0 pts',  desc:'No cargaste ningún prode para ese partido.',                                    color:C.ink300 },
               ]}/>
             </section>
 
@@ -665,12 +665,12 @@ export default function ManualUser() {
               <SectionHeader num="06" kicker="Referencia" title="PREGUNTAS FRECUENTES" icon={ICONS.faq}/>
               
               {[
-                { q:'¿Puedo ver las predicciones de otros usuarios?', a:'No podés ver las predicciones de otros participantes mientras el pronóstico está abierta. Una vez finalizada, el ranking muestra los puntos de todos, pero el detalle de las predicciones individuales de cada persona es privado.' },
-                { q:'¿Me avisan cuando hay una nueva pronóstico?', a:'El admin se encarga de comunicar cuando abre una nueva pronóstico. Revisá la sección Pronósticos periódicamente, especialmente cuando empieza una nueva fase del experiencia.' },
+                { q:'¿Puedo ver las predicciones de otros usuarios?', a:'No podés ver las predicciones de otros participantes mientras la apuesta esté abierta. Una vez finalizada, el ranking muestra los puntos de todos, pero el detalle de las predicciones individuales de cada persona es privado.' },
+                { q:'¿Me avisan cuando hay una nueva apuesta?', a:'El admin se encarga de comunicar cuando abre una nueva apuesta. Revisá la sección Apuestas periódicamente, especialmente cuando empieza una nueva fase del torneo.' },
                 { q:'¿Qué pasa si hay un empate en puntos en el ranking?', a:'El sistema ordena por puntos totales. En caso de igualdad, el ranking muestra a ambos participantes con la misma posición.' },
                 { q:'¿Puedo cargar predicciones desde el celular?', a:'Sí, la plataforma funciona en el navegador del celular. No necesitás instalar nada.' },
-                { q:'¿Qué significa el indicador "Cerrada" en el tiempo restante?', a:'Significa que la fecha límite ya pasó y no se aceptan más predicciones para esa pronóstico.' },
-                { q:'¿Puedo cambiar mi predicción después de guardarla?', a:'Sí, podés modificarla cuantas veces quieras mientras el pronóstico esté abierta. Solo el último valor guardado cuenta.' },
+                { q:'¿Qué significa el indicador "Cerrada" en el tiempo restante?', a:'Significa que la fecha límite ya pasó y no se aceptan más prodes para esa apuesta.' },
+                { q:'¿Puedo cambiar mi predicción después de guardarla?', a:'Sí, podés modificarla cuantas veces quieras mientras la apuesta esté abierta. Solo el último valor guardado cuenta.' },
               ].map((faq,i)=>(
                 <div key={i} style={{ marginBottom:20 }}>
                   <h3 style={{
@@ -699,7 +699,7 @@ export default function ManualUser() {
               <p style={{
                 fontSize:12, color:C.ink500, margin:0,
               }}>
-                Prode MRE - Manual del Participante - Mundial 2026
+                Prode ONE - Manual del Participante - Mundial 2026
               </p>
             </div>
 

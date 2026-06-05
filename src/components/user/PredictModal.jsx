@@ -752,12 +752,12 @@ export default function PredictModal({ bet, onSubmit, onClose, loading }) {
 
               {open && !estaBloqueado && (
                 <div className="col-span-full text-[10px] text-slate-400 text-center tracking-wide">
-                  ðŸ’¡ Podés modificar mientras esté abierta
+                  💡 Podes modificar la apuesta mientras esté abierta
                 </div>
               )}
               {open && estaBloqueado && (
                 <div className="col-span-full text-[10px] text-pink-300 text-center tracking-wide font-bold">
-                  ðŸ”’ Solo lectura
+                    🔒 Solo lectura
                 </div>
               )}
             </footer>

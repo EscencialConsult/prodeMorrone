@@ -1,13 +1,13 @@
-﻿import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   MANUAL DEL ADMINISTRADOR â€” Prode MRE
+/* ══════════════════════════════════════════════════════════════
+   MANUAL DEL ADMINISTRADOR — Prode ONE
    Rediseño editorial sobre paleta CLARA del sitio
    Cream + navy como tinta + dorado como acento
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+══════════════════════════════════════════════════════════════ */
 
-/* â”€â”€ Paleta (alineada con el resto del sitio) â”€â”€ */
+/* ── Paleta (alineada con el resto del sitio) ── */
 const C = {
   navyDeep:  '#111214',
   navy:      '#202124',
@@ -19,7 +19,7 @@ const C = {
   goldDk:    '#8f7a45',
   cream:     '#f6f5f2',
   cream2:    '#dedbd4',
-  cream3:    '#e8e0c9',
+  cream3:    '#ece9e2',
   ink700:    '#33363a',
   ink500:    '#6f7377',
   ink300:    '#a9adb1',
@@ -28,13 +28,13 @@ const C = {
   white:     '#ffffff',
 }
 
-/* â”€â”€ Estructura de secciones â”€â”€ */
+/* ── Estructura de secciones ── */
 const SECTIONS = [
   { id:'intro',         num:'01', label:'¿Qué hace el admin?',     group:'Introducción'         },
   { id:'acceso',        num:'02', label:'Acceso al panel',         group:'Introducción'         },
-  { id:'estrategia',    num:'03', label:'Estrategia de pronósticos',  group:'Gestión de Torneos'   },
+  { id:'estrategia',    num:'03', label:'Estrategia de apuestas',  group:'Gestión de Torneos'   },
   { id:'fases',         num:'04', label:'Las 6 fases del Mundial', group:'Gestión de Torneos'   },
-  { id:'crear-pronóstico', num:'05', label:'Crear un pronóstico',       group:'Gestión de Torneos'   },
+  { id:'crear-apuesta', num:'05', label:'Crear una apuesta',       group:'Gestión de Torneos'   },
   { id:'partidos',      num:'06', label:'Asignar partidos',        group:'Gestión de Torneos'   },
   { id:'ciclo',         num:'07', label:'Ciclo de vida',           group:'Gestión de Torneos'   },
   { id:'usuarios',      num:'08', label:'Aprobar usuarios',        group:'Usuarios & Premios'   },
@@ -47,9 +47,9 @@ const SECTIONS = [
 
 const GROUPS = ['Introducción','Gestión de Torneos','Usuarios & Premios','Referencia']
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ──────────────────────────────────────────────
    PIEZAS DE TIPOGRAFÍA / TEXTO
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+────────────────────────────────────────────── */
 
 function P({ children }) {
   return (
@@ -76,9 +76,9 @@ const Code = ({ children }) => (
   }}>{children}</code>
 )
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   HEADER DE SECCIÃ“N â€” editorial, asimétrico
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ──────────────────────────────────────────────
+   HEADER DE SECCIÓN — editorial, asimétrico
+────────────────────────────────────────────── */
 
 function SectionHeader({ num, kicker, title, icon }) {
   return (
@@ -132,16 +132,16 @@ function SectionHeader({ num, kicker, title, icon }) {
   )
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   CALLOUTS â€” estilo editorial con borde lateral
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ──────────────────────────────────────────────
+   CALLOUTS — estilo editorial con borde lateral
+────────────────────────────────────────────── */
 
 function Callout({ type='info', title, children }) {
   const variants = {
-    tip:    { accent:C.green,   bg:'rgba(27,138,90,.06)',  ic:'âœ“', tone:'CONSEJO' },
+    tip:    { accent:C.green,   bg:'rgba(27,138,90,.06)',  ic:'✓', tone:'CONSEJO' },
     warn:   { accent:C.goldDk,  bg:'rgba(184,160,106,.08)', ic:'!', tone:'IMPORTANTE' },
-    info:   { accent:C.blueMed, bg:'rgba(111,115,119,.06)',  ic:'i', tone:'NOTA' },
-    danger: { accent:C.red,     bg:'rgba(184,69,46,.06)',  ic:'âš ', tone:'CUIDADO' },
+    info:   { accent:C.blueMed, bg:'rgba(66,91,139,.06)',  ic:'i', tone:'NOTA' },
+    danger: { accent:C.red,     bg:'rgba(184,69,46,.06)',  ic:'⚠', tone:'CUIDADO' },
   }
   const v = variants[type] || variants.info
 
@@ -168,7 +168,7 @@ function Callout({ type='info', title, children }) {
           fontSize:9.5, textTransform:'uppercase', letterSpacing:'.22em',
           color:v.accent, marginBottom:5,
         }}>
-          {v.tone}{title && ' Â· '}{title}
+          {v.tone}{title && ' · '}{title}
         </div>
         <div style={{
           fontFamily:"'DM Sans',sans-serif",
@@ -179,9 +179,9 @@ function Callout({ type='info', title, children }) {
   )
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   STEP â€” paso numerado horizontal limpio
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ──────────────────────────────────────────────
+   STEP — paso numerado horizontal limpio
+────────────────────────────────────────────── */
 
 function Step({ num, title, children }) {
   return (
@@ -218,9 +218,9 @@ function Step({ num, title, children }) {
   )
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   PHASE CARD â€” fase del Mundial / opción visual
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ──────────────────────────────────────────────
+   PHASE CARD — fase del Mundial / opción visual
+────────────────────────────────────────────── */
 
 function PhaseCard({ tag, tagColor, name, desc, matches, accent=C.gold }) {
   return (
@@ -277,13 +277,13 @@ function PhaseCard({ tag, tagColor, name, desc, matches, accent=C.gold }) {
   )
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   FIELD ITEM â€” campo de formulario explicado
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ──────────────────────────────────────────────
+   FIELD ITEM — campo de formulario explicado
+────────────────────────────────────────────── */
 
 function FieldItem({ name, req, children }) {
   const badge = req==='req'  ? { bg:'rgba(184,69,46,.1)',  color:C.red,   label:'Requerido' }
-              : req==='opt'  ? { bg:'rgba(111,115,119,.1)',  color:C.blueMed,label:'Opcional'  }
+              : req==='opt'  ? { bg:'rgba(66,91,139,.1)',  color:C.blueMed,label:'Opcional'  }
               : req==='auto' ? { bg:'rgba(27,138,90,.1)',  color:C.green, label:'Auto'      }
               : null
   return (
@@ -317,9 +317,9 @@ function FieldItem({ name, req, children }) {
   )
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   CHECK ITEM â€” del checklist final
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ──────────────────────────────────────────────
+   CHECK ITEM — del checklist final
+────────────────────────────────────────────── */
 
 function CheckItem({ accent, children }) {
   const [checked, setChecked] = useState(false)
@@ -354,9 +354,9 @@ function CheckItem({ accent, children }) {
   )
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   TABLAS â€” puntuación y acciones
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ──────────────────────────────────────────────
+   TABLAS — puntuación y acciones
+────────────────────────────────────────────── */
 
 function ScoreTable({ rows }) {
   return (
@@ -454,9 +454,9 @@ function ActionTable({ rows }) {
   )
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   BOTÃ“N GOLD â€” link al panel admin / dashboard
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ──────────────────────────────────────────────
+   BOTÓN GOLD — link al panel admin / dashboard
+────────────────────────────────────────────── */
 
 function GoldButton({ onClick, children, variant='solid' }) {
   if (variant==='solid') {
@@ -501,9 +501,9 @@ function GoldButton({ onClick, children, variant='solid' }) {
   )
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ──────────────────────────────────────────────
    DIVIDER editorial
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+────────────────────────────────────────────── */
 
 function Divider() {
   return (
@@ -520,9 +520,9 @@ function Divider() {
   )
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ──────────────────────────────────────────────
    ICONOS por sección (línea, dorado)
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+────────────────────────────────────────────── */
 const Icon = (path) => (
   <svg viewBox="0 0 24 24" fill="none" stroke={C.gold} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width:20, height:20 }}>
     {path}
@@ -545,9 +545,9 @@ const ICONS = {
   check:    Icon(<><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></>),
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/* ══════════════════════════════════════════════════════════════
    COMPONENTE PRINCIPAL
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+══════════════════════════════════════════════════════════════ */
 
 export default function Manual() {
   const navigate = useNavigate()
@@ -592,7 +592,7 @@ export default function Manual() {
         position:'absolute', inset:0, pointerEvents:'none', overflow:'hidden',
         background:`
           radial-gradient(ellipse 600px 400px at 90% 5%, rgba(184,160,106,.08), transparent 60%),
-          radial-gradient(ellipse 500px 600px at 5% 60%, rgba(111,115,119,.05), transparent 60%)
+          radial-gradient(ellipse 500px 600px at 5% 60%, rgba(66,91,139,.05), transparent 60%)
         `,
       }}/>
 
@@ -602,9 +602,9 @@ export default function Manual() {
         gap:0, maxWidth:1280, margin:'0 auto',
       }}>
 
-        {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-            SIDEBAR â€” claro, minimalista
-        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+        {/* ══════════════════════════════════════
+            SIDEBAR — claro, minimalista
+        ══════════════════════════════════════ */}
         <aside style={{
           position:'sticky', top:0, height:'100vh',
           padding:'32px 0 24px 24px',
@@ -625,7 +625,7 @@ export default function Manual() {
               textTransform:'uppercase', letterSpacing:'.2em',
               color:C.ink500, marginBottom:12,
             }}>
-              Prode MRE Â· Mundial 2026
+              Prode ONE · Mundial 2026
             </div>
             <span style={{
               display:'inline-flex', alignItems:'center', gap:6,
@@ -684,15 +684,15 @@ export default function Manual() {
           ))}
         </aside>
 
-        {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+        {/* ══════════════════════════════════════
             CONTENIDO PRINCIPAL
-        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+        ══════════════════════════════════════ */}
         <main ref={contentRef} style={{
           padding:'0 36px 80px',
           minWidth:0,
         }}>
 
-          {/* â”€â”€ HERO editorial â”€â”€ */}
+          {/* ── HERO editorial ── */}
           <header style={{
             position:'relative', padding:'56px 0 40px',
             borderBottom:`1px solid ${C.cream2}`,
@@ -705,7 +705,7 @@ export default function Manual() {
               color:C.goldDk, marginBottom:18,
             }}>
               <span style={{ width:24, height:1, background:C.goldDk }}/>
-              Manual del Administrador Â· v1.0
+              Manual del Administrador · v1.0
             </span>
 
             <h1 style={{
@@ -714,7 +714,7 @@ export default function Manual() {
               color:C.navy, letterSpacing:'.01em',
               lineHeight:.92, margin:'0 0 12px',
             }}>
-              GESTIONÃ EL<br/>
+              GESTIONÁ EL<br/>
               <span style={{
                 color:C.goldDk,
                 textShadow:'0 0 32px rgba(184,160,106,.25)',
@@ -726,7 +726,7 @@ export default function Manual() {
               fontSize:17, lineHeight:1.7, color:C.ink500,
               maxWidth:560, margin:'0 0 28px',
             }}>
-              Guía paso a paso para administrar el prode interno del Mundial 2026 â€” desde la creación de pronósticos hasta la entrega de premios a los ganadores.
+              Guía paso a paso para administrar el prode interno del Mundial 2026 — desde la creación de apuestas hasta la entrega de premios a los ganadores.
             </p>
 
             {/* Stats hero */}
@@ -736,10 +736,10 @@ export default function Manual() {
               paddingTop:20, marginTop:8,
             }}>
               {[
-                ['6','Fases del experiencia'],
-                ['6','Pronósticos a crear'],
+                ['6','Fases del torneo'],
+                ['6','Apuestas a crear'],
                 ['5','Ganadores posibles'],
-                ['3','Estados por pronóstico'],
+                ['3','Estados por apuesta'],
               ].map(([n,l],i)=>(
                 <div key={l} style={{
                   flex:'1 1 140px', padding:'0 24px',
@@ -760,25 +760,25 @@ export default function Manual() {
             </div>
           </header>
 
-          {/* â•â•â•â•â•â•â•â•â•â•â•â• 01 INTRO â•â•â•â•â•â•â•â•â•â•â•â• */}
+          {/* ════════════ 01 INTRO ════════════ */}
           <section id="manual-intro" style={{ marginBottom:48, scrollMarginTop:24 }}>
             <SectionHeader num="01" kicker="Introducción" title="¿QUÉ HACE EL ADMINISTRADOR?" icon={ICONS.intro}/>
             <P>
-              El administrador es quien <B>organiza y controla el experiencia de pronósticos</B> para toda la empresa. Sin intervención del admin, los participantes no pueden apostar. El admin tiene un panel exclusivo al que los usuarios comunes no tienen acceso.
+              El administrador es quien <B>organiza y controla el torneo de pronósticos</B> para toda la empresa. Sin intervención del admin, los participantes no pueden apostar. El admin tiene un panel exclusivo al que los usuarios comunes no tienen acceso.
             </P>
             <div style={{
               display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))',
               gap:14, margin:'24px 0',
             }}>
-              <PhaseCard tag="Antes del experiencia" tagColor={C.blueMed} accent={C.blueMed}
+              <PhaseCard tag="Antes del torneo" tagColor={C.blueMed} accent={C.blueMed}
                 name="Preparar el escenario"
-                desc="Crear las áreas, aprobar usuarios y armar la primera pronóstico."/>
-              <PhaseCard tag="Durante el experiencia" tagColor={C.green} accent={C.green}
-                name="Abrir y cerrar pronósticos"
-                desc="Crear un pronóstico por fase, habilitar los partidos correctos y cerrarla a tiempo."/>
+                desc="Crear las áreas, aprobar usuarios y armar la primera apuesta."/>
+              <PhaseCard tag="Durante el torneo" tagColor={C.green} accent={C.green}
+                name="Abrir y cerrar apuestas"
+                desc="Crear una apuesta por fase, habilitar los partidos correctos y cerrarla a tiempo."/>
               <PhaseCard tag="Al finalizar" tagColor={C.goldDk} accent={C.gold}
                 name="Determinar ganadores"
-                desc="Ver el ranking de cada pronóstico y entregar los premios."/>
+                desc="Ver el ranking de cada apuesta y entregar los premios."/>
             </div>
             <Callout type="info" title="¿Quién puede ser admin?">
               Solo los usuarios con rol <B>admin</B> pueden acceder al panel. Este rol se asigna directamente en la hoja de Google Sheets del sistema. Contactar al equipo técnico si necesitás agregar más administradores.
@@ -787,7 +787,7 @@ export default function Manual() {
 
           <Divider/>
 
-          {/* â•â•â•â•â•â•â•â•â•â•â•â• 02 ACCESO â•â•â•â•â•â•â•â•â•â•â•â• */}
+          {/* ════════════ 02 ACCESO ════════════ */}
           <section id="manual-acceso" style={{ marginBottom:48, scrollMarginTop:24 }}>
             <SectionHeader num="02" kicker="Introducción" title="ACCESO AL PANEL ADMIN" icon={ICONS.acceso}/>
             <Step num="1" title="Iniciar sesión normalmente">
@@ -800,7 +800,7 @@ export default function Manual() {
               </div>
             </Step>
             <Step num="3" title="Navegás por las pestañas del panel">
-              El panel admin tiene 4 pestañas principales: <B>Pronósticos</B>, <B>Partidos</B>, <B>Usuarios</B> y <B>Áreas</B>.
+              El panel admin tiene 4 pestañas principales: <B>Apuestas</B>, <B>Partidos</B>, <B>Usuarios</B> y <B>Áreas</B>.
             </Step>
             <Callout type="danger" title="El panel admin es exclusivo">
               Nunca compartás tu contraseña de admin. Los usuarios comunes no pueden ver ni acceder al panel. Si un usuario necesita acceso, solicitá al equipo técnico que le cambie el rol desde Google Sheets.
@@ -809,29 +809,29 @@ export default function Manual() {
 
           <Divider/>
 
-          {/* â•â•â•â•â•â•â•â•â•â•â•â• 03 ESTRATEGIA â•â•â•â•â•â•â•â•â•â•â•â• */}
+          {/* ════════════ 03 ESTRATEGIA ════════════ */}
           <section id="manual-estrategia" style={{ marginBottom:48, scrollMarginTop:24 }}>
-            <SectionHeader num="03" kicker="Gestión de Torneos" title="ESTRATEGIA DE PRONÓSTICOS" icon={ICONS.estrategia}/>
+            <SectionHeader num="03" kicker="Gestión de Torneos" title="ESTRATEGIA DE APUESTAS" icon={ICONS.estrategia}/>
             <P>
-              La estrategia recomendada es crear <B>un pronóstico por cada fase del Mundial</B>. Esto permite tener ganadores en cada etapa del experiencia y mantener la motivación de los participantes durante todo el evento.
+              La estrategia recomendada es crear <B>una apuesta por cada fase del Mundial</B>. Esto permite tener ganadores en cada etapa del torneo y mantener la motivación de los participantes durante todo el evento.
             </P>
-            <Callout type="tip" title="Recomendación: 6 pronósticos en total">
-              Una pronóstico por fase del experiencia genera hasta 6 ganadores distintos. Esto distribuye los premios en el tiempo y mantiene el interés de todos los participantes â€” incluso los que no van bien en el ranking general.
+            <Callout type="tip" title="Recomendación: 6 apuestas en total">
+              Una apuesta por fase del torneo genera hasta 6 ganadores distintos. Esto distribuye los premios en el tiempo y mantiene el interés de todos los participantes — incluso los que no van bien en el ranking general.
             </Callout>
             <P>
-              También podés hacer <B>pronósticos por área</B> para generar competencia interna entre departamentos, o una <B>gran pronóstico acumulado</B> con todos los partidos del experiencia para el ganador general.
+              También podés hacer <B>apuestas por área</B> para generar competencia interna entre departamentos, o una <B>gran apuesta acumulada</B> con todos los partidos del torneo para el ganador general.
             </P>
             <div style={{ marginTop:16 }}>
-              <GoldButton onClick={()=>navigate('/admin')}>Crear un pronóstico</GoldButton>
+              <GoldButton onClick={()=>navigate('/admin')}>Crear una apuesta</GoldButton>
             </div>
           </section>
 
           <Divider/>
 
-          {/* â•â•â•â•â•â•â•â•â•â•â•â• 04 FASES â•â•â•â•â•â•â•â•â•â•â•â• */}
+          {/* ════════════ 04 FASES ════════════ */}
           <section id="manual-fases" style={{ marginBottom:48, scrollMarginTop:24 }}>
             <SectionHeader num="04" kicker="Gestión de Torneos" title="LAS 6 FASES DEL MUNDIAL" icon={ICONS.fases}/>
-            <P>El Mundial 2026 tiene 6 fases jugables, cada una ideal para un pronóstico diferente:</P>
+            <P>El Mundial 2026 tiene 6 fases jugables, cada una ideal para una apuesta diferente:</P>
             <div style={{
               display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))',
               gap:12, margin:'18px 0',
@@ -842,36 +842,36 @@ export default function Manual() {
                 { tag:'Fase 3', name:'OCTAVOS DE FINAL', desc:'16 equipos se enfrentan en formato eliminatorio directo.', matches:'16 partidos', accent:C.gold },
                 { tag:'Fase 4', name:'CUARTOS DE FINAL', desc:'Los 8 equipos que sobrevivieron octavos se enfrentan.', matches:'8 partidos', accent:C.green },
                 { tag:'Fase 5', name:'SEMIFINALES', desc:'Los 4 mejores equipos juegan por llegar a la gran final.', matches:'2 partidos', accent:C.red },
-                { tag:'Fase 6', name:'FINAL + 3Â° PUESTO', desc:'La gran final y el partido por el tercer puesto.', matches:'2 partidos', accent:C.goldDk },
+                { tag:'Fase 6', name:'FINAL + 3° PUESTO', desc:'La gran final y el partido por el tercer puesto.', matches:'2 partidos', accent:C.goldDk },
               ].map((p,i)=><PhaseCard key={i} {...p}/>)}
             </div>
             <Callout type="warn" title="Las eliminatorias se van sabiendo de a poco">
-              En cada ronda eliminatoria, los partidos se confirman recién cuando terminan los partidos de la ronda anterior. Podés crear el pronóstico anticipadamente y agregar los partidos a medida que se confirman.
+              En cada ronda eliminatoria, los partidos se confirman recién cuando terminan los partidos de la ronda anterior. Podés crear la apuesta anticipadamente y agregar los partidos a medida que se confirman.
             </Callout>
           </section>
 
           <Divider/>
 
-          {/* â•â•â•â•â•â•â•â•â•â•â•â• 05 CREAR APUESTA â•â•â•â•â•â•â•â•â•â•â•â• */}
-          <section id="manual-crear-pronóstico" style={{ marginBottom:48, scrollMarginTop:24 }}>
+          {/* ════════════ 05 CREAR APUESTA ════════════ */}
+          <section id="manual-crear-apuesta" style={{ marginBottom:48, scrollMarginTop:24 }}>
             <SectionHeader num="05" kicker="Gestión de Torneos" title="CREAR UNA APUESTA" icon={ICONS.crear}/>
             <P>
-              Desde la pestaña <B>Pronósticos</B> del panel admin, hacé clic en <B>"Nuevo pronóstico"</B>. Completá los siguientes campos:
+              Desde la pestaña <B>Apuestas</B> del panel admin, hacé clic en <B>"Nueva Apuesta"</B>. Completá los siguientes campos:
             </P>
             <FieldItem name="Título" req="req">
-              Nombre descriptivo. Ej: <I>"Fase de Grupos â€” Mundial 2026"</I>. Este nombre ven todos los participantes.
+              Nombre descriptivo. Ej: <I>"Fase de Grupos — Mundial 2026"</I>. Este nombre ven todos los participantes.
             </FieldItem>
             <FieldItem name="Tipo" req="req">
-              Categoría de el pronóstico. Usualmente se usa el tipo <I>fase</I> para cada ronda del experiencia.
+              Categoría de la apuesta. Usualmente se usa el tipo <I>fase</I> para cada ronda del torneo.
             </FieldItem>
             <FieldItem name="Premio" req="req">
               Descripción del premio. Puede ser texto libre: <I>"Tarde libre"</I>, <I>"Gift card $5000"</I>, <I>"Cena para dos"</I>. <B>El admin define libremente qué premiar.</B>
             </FieldItem>
             <FieldItem name="Fecha cierre" req="req">
-              Fecha y hora límite para cargar predicciones. Una vez pasada, el pronóstico se cierra automáticamente. <B>Recomendación:</B> poner la fecha de inicio del primer partido de la fase.
+              Fecha y hora límite para cargar predicciones. Una vez pasada, la apuesta se cierra automáticamente. <B>Recomendación:</B> poner la fecha de inicio del primer partido de la fase.
             </FieldItem>
             <FieldItem name="Partidos" req="req">
-              Selección de los partidos que forman parte de este pronóstico. Podés seleccionar múltiples partidos.
+              Selección de los partidos que forman parte de esta apuesta. Podés seleccionar múltiples partidos.
             </FieldItem>
             <FieldItem name="Pts. Exacto" req="opt">
               Puntos por acertar el marcador exacto. Por defecto: <B>5 puntos</B>.
@@ -886,17 +886,17 @@ export default function Manual() {
               Podés usar los valores por defecto (5/3/1) para todas las fases. Si querés hacer las fases finales más emocionantes, podés aumentar los puntos en octavos, cuartos y semis para que pesen más.
             </Callout>
             <div style={{ marginTop:16 }}>
-              <GoldButton onClick={()=>navigate('/admin')}>Ir a Pronósticos</GoldButton>
+              <GoldButton onClick={()=>navigate('/admin')}>Ir a Apuestas</GoldButton>
             </div>
           </section>
 
           <Divider/>
 
-          {/* â•â•â•â•â•â•â•â•â•â•â•â• 06 PARTIDOS â•â•â•â•â•â•â•â•â•â•â•â• */}
+          {/* ════════════ 06 PARTIDOS ════════════ */}
           <section id="manual-partidos" style={{ marginBottom:48, scrollMarginTop:24 }}>
             <SectionHeader num="06" kicker="Gestión de Torneos" title="ASIGNAR PARTIDOS A UNA APUESTA" icon={ICONS.partidos}/>
             <P>
-              Al crear o editar un pronóstico, el admin selecciona qué partidos incluye esa pronóstico. El sistema carga los partidos del fixture del Mundial automáticamente.
+              Al crear o editar una apuesta, el admin selecciona qué partidos incluye esa apuesta. El sistema carga los partidos del fixture del Mundial automáticamente.
             </P>
             <div style={{
               display:'grid', gridTemplateColumns:'1fr 1fr',
@@ -906,10 +906,10 @@ export default function Manual() {
               <PhaseCard name="Para Eliminatorias" desc="En cada ronda eliminatoria seleccionás solo los partidos de esa ronda. En 16avos son 32, en Octavos 16, en Cuartos 8." accent={C.gold}/>
             </div>
             <Callout type="warn" title="En eliminatorias los partidos se conocen después">
-              Los equipos que juegan cada partido se saben recién cuando terminan los partidos anteriores. Podés crear el pronóstico antes de que se definan todos los clasificados y agregar los partidos a medida que se confirman.
+              Los equipos que juegan cada partido se saben recién cuando terminan los partidos anteriores. Podés crear la apuesta antes de que se definan todos los clasificados y agregar los partidos a medida que se confirman.
             </Callout>
             <P>
-              En la pestaña <B>Partidos</B> del panel admin podés ver el fixture completo, filtrar por estado (próximo, en vivo, finalizado) y ver qué partidos ya están asignados a qué pronóstico.
+              En la pestaña <B>Partidos</B> del panel admin podés ver el fixture completo, filtrar por estado (próximo, en vivo, finalizado) y ver qué partidos ya están asignados a qué apuesta.
             </P>
             <div style={{ marginTop:16 }}>
               <GoldButton onClick={()=>navigate('/partidos')}>Ver Fixture completo</GoldButton>
@@ -918,10 +918,10 @@ export default function Manual() {
 
           <Divider/>
 
-          {/* â•â•â•â•â•â•â•â•â•â•â•â• 07 CICLO DE VIDA â•â•â•â•â•â•â•â•â•â•â•â• */}
+          {/* ════════════ 07 CICLO DE VIDA ════════════ */}
           <section id="manual-ciclo" style={{ marginBottom:48, scrollMarginTop:24 }}>
             <SectionHeader num="07" kicker="Gestión de Torneos" title="CICLO DE VIDA DE UNA APUESTA" icon={ICONS.ciclo}/>
-            <P>Cada pronóstico pasa por 3 estados distintos. El admin controla las transiciones entre estados.</P>
+            <P>Cada apuesta pasa por 3 estados distintos. El admin controla las transiciones entre estados.</P>
 
             {/* Timeline visual de estados */}
             <div style={{
@@ -930,8 +930,8 @@ export default function Manual() {
               borderLeft:`2px dashed ${C.cream3}`,
             }}>
               {[
-                { dot:C.green, label:'ABIERTA', desc:'Apenas se crea el pronóstico, queda en estado abierta. Los participantes pueden ver los partidos y cargar/modificar sus predicciones. Este estado dura hasta la fecha de cierre configurada, o hasta que el admin la cierre manualmente.' },
-                { dot:C.red, label:'CERRADA', desc:'Cuando se alcanza la fecha límite (o el admin la cierra manualmente), el pronóstico pasa a cerrada. Ya no se aceptan predicciones nuevas. Los partidos se juegan durante esta etapa y el sistema registra los resultados.' },
+                { dot:C.green, label:'ABIERTA', desc:'Apenas se crea la apuesta, queda en estado abierta. Los participantes pueden ver los partidos y cargar/modificar sus predicciones. Este estado dura hasta la fecha de cierre configurada, o hasta que el admin la cierre manualmente.' },
+                { dot:C.red, label:'CERRADA', desc:'Cuando se alcanza la fecha límite (o el admin la cierra manualmente), la apuesta pasa a cerrada. Ya no se aceptan predicciones nuevas. Los partidos se juegan durante esta etapa y el sistema registra los resultados.' },
                 { dot:C.gold, label:'FINALIZADA', desc:'Una vez que todos los partidos tienen resultado, el admin puede finalizarla. El sistema calcula los puntos de cada participante y genera el ranking final. Este es el momento donde se decide quién ganó el premio.' },
               ].map((s,i)=>(
                 <div key={i} style={{ position:'relative', marginBottom:i<2?22:0 }}>
@@ -957,18 +957,18 @@ export default function Manual() {
             </div>
 
             <ActionTable rows={[
-              { accion:'Crear pronóstico', desde:'â€”', resultado:'Apuesta queda en <strong style="color:#202124">Abierta</strong>' },
-              { accion:'Cerrar pronóstico (manual)', desde:'Abierta', resultado:'Pasa a <strong style="color:#202124">Cerrada</strong>, no más predicciones' },
-              { accion:'Finalizar pronóstico', desde:'Cerrada', resultado:'Calcula puntos â†’ pasa a <strong style="color:#202124">Finalizada</strong>' },
+              { accion:'Crear apuesta', desde:'—', resultado:'Apuesta queda en <strong style="color:#202124">Abierta</strong>' },
+              { accion:'Cerrar apuesta (manual)', desde:'Abierta', resultado:'Pasa a <strong style="color:#202124">Cerrada</strong>, no más predicciones' },
+              { accion:'Finalizar apuesta', desde:'Cerrada', resultado:'Calcula puntos → pasa a <strong style="color:#202124">Finalizada</strong>' },
             ]}/>
             <Callout type="info" title="Cierre automático vs. manual">
-              Si configurás una fecha de cierre, el pronóstico se cierra sola al llegar esa fecha. También podés cerrarla manualmente antes desde el panel. Una vez cerrada, no se puede volver a abrir.
+              Si configurás una fecha de cierre, la apuesta se cierra sola al llegar esa fecha. También podés cerrarla manualmente antes desde el panel. Una vez cerrada, no se puede volver a abrir.
             </Callout>
           </section>
 
           <Divider/>
 
-          {/* â•â•â•â•â•â•â•â•â•â•â•â• 08 USUARIOS â•â•â•â•â•â•â•â•â•â•â•â• */}
+          {/* ════════════ 08 USUARIOS ════════════ */}
           <section id="manual-usuarios" style={{ marginBottom:48, scrollMarginTop:24 }}>
             <SectionHeader num="08" kicker="Usuarios & Premios" title="APROBAR USUARIOS" icon={ICONS.usuarios}/>
             <P>
@@ -981,7 +981,7 @@ export default function Manual() {
               En el Plan Pro tenés que asignar un <B>rol</B> (Participante o Jefe de Área) y el <B>área</B> del usuario. En el Plan Básico, los usuarios se aprueban directamente como participantes generales.
             </Step>
             <Step num="3" title="Confirmar o rechazar">
-              Hacé clic en <B>Aprobar</B> para activar la cuenta, o en <B>Rechazar</B> para eliminarla del sistema. Una vez aprobado, el usuario puede participar en todas las pronósticos activas.
+              Hacé clic en <B>Aprobar</B> para activar la cuenta, o en <B>Rechazar</B> para eliminarla del sistema. Una vez aprobado, el usuario puede participar en todas las apuestas activas.
             </Step>
             <Callout type="warn" title="Rechazar borra la cuenta">
               Al rechazar un usuario, su registro se elimina permanentemente del sistema. Si el usuario necesita intentarlo de nuevo, tendrá que registrarse otra vez.
@@ -993,9 +993,9 @@ export default function Manual() {
 
           <Divider/>
 
-          {/* â•â•â•â•â•â•â•â•â•â•â•â• 09 ÃREAS â•â•â•â•â•â•â•â•â•â•â•â• */}
+          {/* ════════════ 09 ÁREAS ════════════ */}
           <section id="manual-areas" style={{ marginBottom:48, scrollMarginTop:24 }}>
-            <SectionHeader num="09" kicker="Usuarios & Premios" title="GESTIONAR ÃREAS" icon={ICONS.areas}/>
+            <SectionHeader num="09" kicker="Usuarios & Premios" title="GESTIONAR ÁREAS" icon={ICONS.areas}/>
             <P>
               Las áreas son los departamentos o grupos de la empresa. Permiten organizar a los participantes por sector y generar rankings por área. Esta funcionalidad está disponible en el <B>Plan Pro</B>.
             </P>
@@ -1026,21 +1026,21 @@ export default function Manual() {
 
           <Divider/>
 
-          {/* â•â•â•â•â•â•â•â•â•â•â•â• 10 PREMIOS â•â•â•â•â•â•â•â•â•â•â•â• */}
+          {/* ════════════ 10 PREMIOS ════════════ */}
           <section id="manual-premios" style={{ marginBottom:48, scrollMarginTop:24 }}>
             <SectionHeader num="10" kicker="Usuarios & Premios" title="DEFINIR PREMIOS" icon={ICONS.premios}/>
             <P>
-              Los premios se definen al crear cada pronóstico en el campo <B>Premio</B>. El sistema no gestiona la entrega â€” eso queda a cargo del admin. El campo es texto libre: podés poner lo que quieras.
+              Los premios se definen al crear cada apuesta en el campo <B>Premio</B>. El sistema no gestiona la entrega — eso queda a cargo del admin. El campo es texto libre: podés poner lo que quieras.
             </P>
             <div style={{
               display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',
               gap:12, margin:'18px 0',
             }}>
               {[
-                { emoji:'ðŸ¥‡', pos:'1Â° PUESTO', label:'Ganador principal de el pronóstico', accent:C.gold,    bg:'rgba(184,160,106,.08)' },
-                { emoji:'ðŸ¥ˆ', pos:'2Â° PUESTO', label:'Segundo lugar â€” premio a elección del admin', accent:C.ink300, bg:'rgba(168,178,196,.1)' },
-                { emoji:'ðŸ¥‰', pos:'3Â° PUESTO', label:'Tercer lugar â€” si el admin decide premiarlo', accent:'#b97a3a', bg:'rgba(185,122,58,.08)' },
-                { emoji:'ðŸŽ–ï¸', pos:'4Â° Y 5Â°', label:'El admin puede premiar más puestos si lo desea', accent:C.blueSoft, bg:'rgba(110,131,173,.08)' },
+                { emoji:'🥇', pos:'1° PUESTO', label:'Ganador principal de la apuesta', accent:C.gold,    bg:'rgba(184,160,106,.08)' },
+                { emoji:'🥈', pos:'2° PUESTO', label:'Segundo lugar — premio a elección del admin', accent:C.ink300, bg:'rgba(168,178,196,.1)' },
+                { emoji:'🥉', pos:'3° PUESTO', label:'Tercer lugar — si el admin decide premiarlo', accent:'#b97a3a', bg:'rgba(185,122,58,.08)' },
+                { emoji:'🎖️', pos:'4° Y 5°', label:'El admin puede premiar más puestos si lo desea', accent:C.blueSoft, bg:'rgba(110,131,173,.08)' },
               ].map((p,i)=>(
                 <div key={i} style={{
                   padding:'18px 14px 16px', borderRadius:14,
@@ -1068,29 +1068,29 @@ export default function Manual() {
               ))}
             </div>
             <Callout type="tip" title="Ejemplos de premios efectivos">
-              Tarde libre (sin usar vacaciones) Â· Gift card de $5.000 o $10.000 Â· Cena para dos Â· Día de home office extra Â· Entrada a evento deportivo
+              Tarde libre (sin usar vacaciones) · Gift card de $5.000 o $10.000 · Cena para dos · Día de home office extra · Entrada a evento deportivo
             </Callout>
           </section>
 
           <Divider/>
 
-          {/* â•â•â•â•â•â•â•â•â•â•â•â• 11 RANKING â•â•â•â•â•â•â•â•â•â•â•â• */}
+          {/* ════════════ 11 RANKING ════════════ */}
           <section id="manual-ranking" style={{ marginBottom:48, scrollMarginTop:24 }}>
             <SectionHeader num="11" kicker="Usuarios & Premios" title="RANKING & GANADORES" icon={ICONS.ranking}/>
             <P>
-              Una vez finalizada un pronóstico, el admin puede ver el ranking completo desde la sección <B>Ranking</B> del dashboard.
+              Una vez finalizada una apuesta, el admin puede ver el ranking completo desde la sección <B>Ranking</B> del dashboard.
             </P>
-            <Step num="1" title="Finalizar el pronóstico">
-              Desde el panel admin, una vez que todos los partidos tienen resultado, hacer clic en <B>Finalizar</B> en el pronóstico correspondiente.
+            <Step num="1" title="Finalizar la apuesta">
+              Desde el panel admin, una vez que todos los partidos tienen resultado, hacer clic en <B>Finalizar</B> en la apuesta correspondiente.
             </Step>
             <Step num="2" title="Ir al Ranking">
-              Navegá a la sección Ranking y seleccioná el pronóstico finalizada para ver la tabla de posiciones.
+              Navegá a la sección Ranking y seleccioná la apuesta finalizada para ver la tabla de posiciones.
             </Step>
             <Step num="3" title="Ver el podio y la tabla">
               El sistema muestra el <B>top 3 en podio</B> destacado, seguido por la tabla completa con todos los participantes. Podés ver el desglose partido por partido de cualquier jugador.
             </Step>
             <Step num="4" title="Identificar al ganador">
-              El participante en el <B>1er puesto</B> es el ganador de esa pronóstico.
+              El participante en el <B>1er puesto</B> es el ganador de esa apuesta.
             </Step>
             <Callout type="tip" title="El admin puede expandir cualquier fila">
               A diferencia de los usuarios comunes (que solo ven su propio desglose), el admin puede hacer clic en <B>cualquier participante</B> del ranking para ver partido por partido qué predijo y cuántos puntos sumó.
@@ -1102,11 +1102,11 @@ export default function Manual() {
 
           <Divider/>
 
-          {/* â•â•â•â•â•â•â•â•â•â•â•â• 12 SISTEMA DE PUNTOS â•â•â•â•â•â•â•â•â•â•â•â• */}
+          {/* ════════════ 12 SISTEMA DE PUNTOS ════════════ */}
           <section id="manual-puntuacion" style={{ marginBottom:48, scrollMarginTop:24 }}>
             <SectionHeader num="12" kicker="Referencia" title="SISTEMA DE PUNTOS" icon={ICONS.puntos}/>
             <P>
-              Así se calculan los puntos de cada predicción. Los valores son los predeterminados (configurables por el admin al crear cada pronóstico):
+              Así se calculan los puntos de cada predicción. Los valores son los predeterminados (configurables por el admin al crear cada apuesta):
             </P>
             <ScoreTable rows={[
               { tipo:'Exacto',          desc:'Acertás el marcador exacto (ej: predices 2-1 y sale 2-1)',                                        pts:'+5 pts', color:C.green },
@@ -1116,16 +1116,16 @@ export default function Manual() {
               { tipo:'Sin predicción',  desc:'El participante no cargó ninguna predicción para ese partido',                                    pts:'0 pts',  color:C.ink300 },
             ]}/>
             <Callout type="info" title="Los puntos se calculan automáticamente">
-              Una vez que el partido termina y el resultado está cargado en el sistema, los puntos se calculan solos. El admin solo necesita <B>finalizar el pronóstico</B> cuando todos los partidos hayan terminado.
+              Una vez que el partido termina y el resultado está cargado en el sistema, los puntos se calculan solos. El admin solo necesita <B>finalizar la apuesta</B> cuando todos los partidos hayan terminado.
             </Callout>
           </section>
 
           <Divider/>
 
-          {/* â•â•â•â•â•â•â•â•â•â•â•â• 13 CHECKLIST â•â•â•â•â•â•â•â•â•â•â•â• */}
+          {/* ════════════ 13 CHECKLIST ════════════ */}
           <section id="manual-checklist" style={{ marginBottom:48, scrollMarginTop:24 }}>
-            <SectionHeader num="13" kicker="Referencia" title="CHECKLIST RÃPIDO" icon={ICONS.check}/>
-            <P>Usá esta lista para no olvidar nada en cada etapa del experiencia. <I>Tocá cada ítem para tildarlo.</I></P>
+            <SectionHeader num="13" kicker="Referencia" title="CHECKLIST RÁPIDO" icon={ICONS.check}/>
+            <P>Usá esta lista para no olvidar nada en cada etapa del torneo. <I>Tocá cada ítem para tildarlo.</I></P>
 
             <h3 style={{
               fontFamily:"'Bebas Neue',sans-serif", fontSize:22,
@@ -1133,11 +1133,11 @@ export default function Manual() {
               display:'flex', alignItems:'center', gap:10,
             }}>
               <span style={{ width:8, height:8, borderRadius:'50%', background:C.green }}/>
-              Antes del experiencia
+              Antes del torneo
             </h3>
             <CheckItem accent={C.green}><B>Crear las áreas</B> de la empresa en la pestaña Áreas del panel admin.</CheckItem>
             <CheckItem accent={C.green}><B>Aprobar los registros</B> de todos los empleados, asignándoles rol y área.</CheckItem>
-            <CheckItem accent={C.green}><B>Crear el pronóstico de Grupos</B> con todos los partidos de la fase, fecha de cierre y premio.</CheckItem>
+            <CheckItem accent={C.green}><B>Crear la apuesta de Grupos</B> con todos los partidos de la fase, fecha de cierre y premio.</CheckItem>
             <CheckItem accent={C.green}><B>Comunicar a los empleados</B> que la plataforma está activa y pueden cargar sus predicciones.</CheckItem>
 
             <h3 style={{
@@ -1148,10 +1148,10 @@ export default function Manual() {
               <span style={{ width:8, height:8, borderRadius:'50%', background:C.goldDk }}/>
               Durante cada fase eliminatoria
             </h3>
-            <CheckItem accent={C.goldDk}><B>Crear la nueva pronóstico</B> para la fase (16avos / Octavos / Cuartos / Semis / etc.) cuando se conozcan los partidos.</CheckItem>
-            <CheckItem accent={C.goldDk}><B>Seleccionar los partidos</B> correctos para esa pronóstico.</CheckItem>
-            <CheckItem accent={C.goldDk}><B>Configurar el premio</B> de esa pronóstico.</CheckItem>
-            <CheckItem accent={C.goldDk}><B>Avisar a los participantes</B> que hay nueva pronóstico disponible para predecir.</CheckItem>
+            <CheckItem accent={C.goldDk}><B>Crear la nueva apuesta</B> para la fase (16avos / Octavos / Cuartos / Semis / etc.) cuando se conozcan los partidos.</CheckItem>
+            <CheckItem accent={C.goldDk}><B>Seleccionar los partidos</B> correctos para esa apuesta.</CheckItem>
+            <CheckItem accent={C.goldDk}><B>Configurar el premio</B> de esa apuesta.</CheckItem>
+            <CheckItem accent={C.goldDk}><B>Avisar a los participantes</B> que hay nueva apuesta disponible para predecir.</CheckItem>
 
             <h3 style={{
               fontFamily:"'Bebas Neue',sans-serif", fontSize:22,
@@ -1161,9 +1161,9 @@ export default function Manual() {
               <span style={{ width:8, height:8, borderRadius:'50%', background:C.blueMed }}/>
               Al terminar cada fase
             </h3>
-            <CheckItem accent={C.blueMed}><B>Verificar que todos los partidos</B> de el pronóstico tengan resultado cargado.</CheckItem>
-            <CheckItem accent={C.blueMed}><B>Finalizar el pronóstico</B> desde el panel admin (botón Finalizar).</CheckItem>
-            <CheckItem accent={C.blueMed}><B>Consultar el ranking</B> de el pronóstico y ver quién ganó el 1Â° puesto.</CheckItem>
+            <CheckItem accent={C.blueMed}><B>Verificar que todos los partidos</B> de la apuesta tengan resultado cargado.</CheckItem>
+            <CheckItem accent={C.blueMed}><B>Finalizar la apuesta</B> desde el panel admin (botón Finalizar).</CheckItem>
+            <CheckItem accent={C.blueMed}><B>Consultar el ranking</B> de la apuesta y ver quién ganó el 1° puesto.</CheckItem>
             <CheckItem accent={C.blueMed}><B>Entregar el premio</B> al ganador y comunicarlo internamente.</CheckItem>
 
             <h3 style={{
@@ -1174,8 +1174,8 @@ export default function Manual() {
               <span style={{ width:8, height:8, borderRadius:'50%', background:C.red }}/>
               Al finalizar el Mundial
             </h3>
-            <CheckItem accent={C.red}><B>Finalizar el pronóstico de Final</B> y ver el ganador del partido más importante.</CheckItem>
-            <CheckItem accent={C.red}>Opcional: <B>Comparar rankings de todas las pronósticos</B> para un ranking acumulado general.</CheckItem>
+            <CheckItem accent={C.red}><B>Finalizar la apuesta de Final</B> y ver el ganador del partido más importante.</CheckItem>
+            <CheckItem accent={C.red}>Opcional: <B>Comparar rankings de todas las apuestas</B> para un ranking acumulado general.</CheckItem>
             <CheckItem accent={C.red}><B>Cerrar la temporada</B> con una comunicación interna celebrando a todos los participantes.</CheckItem>
 
             {/* Resumen final con onda */}
@@ -1202,7 +1202,7 @@ export default function Manual() {
                   color:C.gold, marginBottom:10,
                 }}>
                   <span style={{ width:18, height:1, background:C.gold }}/>
-                  Resumen final del experiencia
+                  Resumen final del torneo
                 </span>
                 <h3 style={{
                   fontFamily:"'Bebas Neue',sans-serif",
@@ -1235,7 +1235,7 @@ export default function Manual() {
                         fontFamily:"'Bebas Neue',sans-serif", fontSize:13,
                         color:C.gold, letterSpacing:'.04em',
                         minWidth:20,
-                      }}>{i===5?'ðŸ†':'ðŸ¥‡'}</span>
+                      }}>{i===5?'🏆':'🥇'}</span>
                       <span style={{
                         fontSize:12.5, color:'rgba(255,255,255,.85)',
                         fontWeight:500,
@@ -1247,7 +1247,7 @@ export default function Manual() {
                   fontSize:12, color:'rgba(255,255,255,.5)',
                   margin:0, lineHeight:1.55,
                 }}>
-                  Si además el admin quiere premiar Top 3 de cada pronóstico, puede haber hasta <B><span style={{ color:C.gold }}>18 premiados distintos</span></B> a lo largo del experiencia.
+                  Si además el admin quiere premiar Top 3 de cada apuesta, puede haber hasta <B><span style={{ color:C.gold }}>18 premiados distintos</span></B> a lo largo del torneo.
                 </p>
               </div>
             </div>
@@ -1262,17 +1262,17 @@ export default function Manual() {
               <p style={{
                 fontFamily:"'Bebas Neue',sans-serif", fontSize:18,
                 color:C.navy, margin:'0 0 4px', letterSpacing:'.04em',
-              }}>ACCESOS RÃPIDOS</p>
+              }}>ACCESOS RÁPIDOS</p>
               <p style={{
                 fontSize:12, color:C.ink500, margin:'0 0 14px',
               }}>Saltá directo a las secciones principales del sistema.</p>
               <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>
                 {[
                   { label:'Panel Admin', path:'/admin' },
-                  { label:'Pronósticos',    path:'/pronósticos' },
+                  { label:'Apuestas',    path:'/apuestas' },
                   { label:'Fixture',     path:'/partidos' },
                   { label:'Ranking',     path:'/ranking' },
-                  { label:'Mis predicciones',  path:'/mis-predicciones' },
+                  { label:'Mis Prodes',  path:'/mis-predicciones' },
                 ].map(({ label, path })=>(
                   <button key={path} onClick={()=>navigate(path)}
                     style={{
@@ -1296,7 +1296,7 @@ export default function Manual() {
             </div>
           </section>
 
-          {/* â”€â”€ Cierre editorial â”€â”€ */}
+          {/* ── Cierre editorial ── */}
           <div style={{
             marginTop:48, paddingTop:32,
             borderTop:`1px solid ${C.cream2}`,
@@ -1306,11 +1306,11 @@ export default function Manual() {
               fontFamily:"'Bebas Neue',sans-serif", fontSize:14,
               color:C.goldDk, letterSpacing:'.3em',
               marginBottom:8,
-            }}>Â· FIN DEL MANUAL Â·</div>
+            }}>· FIN DEL MANUAL ·</div>
             <p style={{
               fontSize:12, color:C.ink500, margin:0,
             }}>
-              Prode MRE â€” Manual del Administrador Â· Mundial 2026
+              Prode ONE — Manual del Administrador · Mundial 2026
             </p>
           </div>
 
@@ -1327,4 +1327,3 @@ export default function Manual() {
     </div>
   )
 }
-
