@@ -97,7 +97,7 @@ function BetCard({bet,predsMap,onPredict}){
                   {pred?(
                     <span style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:'1.05rem',color:'#8f7a45',letterSpacing:'.04em'}}>{pred.pred_local} - {pred.pred_visitante}</span>
                   ):(
-                    <span style={{fontSize:'.75rem',color:'#a9adb1'}}>â€” vs â€”</span>
+                    <span style={{fontSize:'.75rem',color:'#a9adb1'}}>- vs -</span>
                   )}
                   {fin&&m.goles_local!=null&&(
                     <div style={{fontSize:'.6rem',color:'#6f7377',marginTop:1}}>Real: {m.goles_local}-{m.goles_visitante}</div>
@@ -281,7 +281,7 @@ const filtered = bets.filter(b => {
 
               {/* Bloque eliminatorias */}
               <p className="font-body font-bold uppercase mt-5 mb-2" style={{ fontSize: '.6rem', letterSpacing: '.12em', color: '#6f7377' }}>
-                Fase eliminatoria Â· Eliminación directa
+                Fase eliminatoria - Eliminación directa
               </p>
               <div className="rounded-xl p-4" style={{ background: 'rgba(244,180,42,.06)', border: '1px solid rgba(244,180,42,.25)' }}>
                 <p className="font-body text-xs mb-3" style={{ color: '#202124' }}>
