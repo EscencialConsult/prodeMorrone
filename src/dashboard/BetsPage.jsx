@@ -1,4 +1,4 @@
-﻿/**
+/**
  * BetsPage.jsx â€” Fondo crema, cards blancas, navy+gold
  * Ubicación: src/dashboard/BetsPage.jsx
  *

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * MisPredesPage.jsx â€” Fondo crema, cards blancas, navy+gold
  * Ubicación: src/dashboard/MisPredesPage.jsx
  *
@@ -260,7 +260,7 @@ export default function MisPredesPage(){
                         ))}
                       </div>
                       {isOpenBet&&(
-                        <Link to="/pronósticos" style={{display:'block',textAlign:'center',marginTop:'1rem',padding:'.55rem',fontFamily:"'DM Sans',sans-serif",fontSize:'.8rem',fontWeight:700,color:'#8f7a45',textDecoration:'none',borderRadius:99,border:'1px solid rgba(184,160,106,.3)',background:'rgba(184,160,106,.06)',transition:'all .17s'}}
+                        <Link to="/apuestas" style={{display:'block',textAlign:'center',marginTop:'1rem',padding:'.55rem',fontFamily:"'DM Sans',sans-serif",fontSize:'.8rem',fontWeight:700,color:'#8f7a45',textDecoration:'none',borderRadius:99,border:'1px solid rgba(184,160,106,.3)',background:'rgba(184,160,106,.06)',transition:'all .17s'}}
                           onMouseEnter={e=>{e.currentTarget.style.background='rgba(184,160,106,.12)'}}
                           onMouseLeave={e=>{e.currentTarget.style.background='rgba(184,160,106,.06)'}}>
                           Editar predicciones →

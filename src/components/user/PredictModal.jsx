@@ -1,4 +1,4 @@
-﻿/**
+/**
  * PredictModal.jsx â€” src/dashboard/components/PredictModal.jsx
  * v10 - BOTÃ“N CERRAR 100% FUNCIONAL GARANTIZADO
  */

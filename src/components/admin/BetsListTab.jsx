@@ -1,4 +1,4 @@
-﻿import { isBetOpen, timeLeft } from '../../utils/index.js'
+import { isBetOpen, timeLeft } from '../../utils/index.js'
 
 function getBetStatus(bet) {
   if (bet.estado === 'abierta' && isBetOpen(bet))
