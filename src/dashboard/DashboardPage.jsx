@@ -233,7 +233,7 @@ export default function DashboardPage() {
                 Una experiencia interna para compartir el Mundial entre equipos, áreas y colaboradores.
               </p>
             </div>
-            <div className="flex gap-2 flex-shrink-0">
+            <div className="dash-hero-ctas flex gap-2 flex-shrink-0">
               <Link to="/partidos"
                 className="gold-cta inline-flex items-center gap-2 font-body font-bold text-sm px-5 py-3 rounded-full"
                 style={{ background: '#b8a06a', color: '#111214', boxShadow: '0 6px 20px rgba(184,160,106,.3)', textDecoration: 'none' }}
@@ -253,7 +253,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8 animate-fade-in delay-1">
+        <div className="dash-stats-grid grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8 animate-fade-in delay-1">
           <StatCard label="Puntos totales" value="-" sub="Sin partidos finalizados" gold
             icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>}
           />

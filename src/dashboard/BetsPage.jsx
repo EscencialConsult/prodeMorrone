@@ -75,8 +75,13 @@ function BetCard({bet,predsMap,onPredict}){
           <p style={{...MUTED,fontSize:'.75rem',margin:0}}>
             {mc} {mc===1?'partido':'partidos'}
             {bet.premio ? ` - Premio: ${bet.premio}` : ''}
-            {open && rem !== 'Cerrada' ? ` - ${rem}` : ''}
+            {open && rem !== 'Cerrada' ? ` - cierra ${rem}` : ''}
           </p>
+          {open && bet.fecha_cierre && (
+            <p style={{...MUTED,fontSize:'.65rem',margin:'.1rem 0 0',color:'#a9adb1'}}>
+              Cierre: {new Date(bet.fecha_cierre).toLocaleDateString('es-AR', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' })}
+            </p>
+          )}
         </div>
         <span style={{display:'inline-flex',alignItems:'center',gap:'.35rem',padding:'.28rem .7rem',borderRadius:99,fontSize:'.65rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'.08em',background:s.bg,color:s.color,border:`1px solid ${s.border}`,flexShrink:0,whiteSpace:'nowrap'}}>
           {live&&<span style={{width:6,height:6,borderRadius:'50%',background:s.color,animation:'ldot 1.4s ease infinite',display:'inline-block'}}/>}
@@ -201,7 +206,7 @@ const filtered = bets.filter(b => {
           </div>
 
           {/* Filtros */}
-          <div className="inline-flex gap-1 p-1 rounded-xl self-start md:self-auto"
+          <div className="bets-filter-bar inline-flex gap-1 p-1 rounded-xl self-start md:self-auto"
             style={{ background: '#fff', border: '1px solid #dedbd4', boxShadow: '0 1px 0 rgba(32,33,36,.04)' }}>
             {FILTERS.map(f => {
               const active = filter === f.key
@@ -258,7 +263,7 @@ const filtered = bets.filter(b => {
               <p className="font-body font-bold uppercase mb-2" style={{ fontSize: '.6rem', letterSpacing: '.12em', color: '#6f7377' }}>
                 Fase de grupos
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="bets-puntos-grid grid grid-cols-1 md:grid-cols-3 gap-3">
                 {[
                   { pts: 1, titulo: 'Resultado',       desc: 'Acertás quién gana, pierde o empata',           accent: '#6f7377', bg: 'rgba(111,115,119,.06)',   border: 'rgba(111,115,119,.2)'   },
                   { pts: 3, titulo: 'Res. + diferencia', desc: 'Acertás resultado y diferencia de goles',      accent: '#202124', bg: 'rgba(32,33,36,.04)',    border: 'rgba(32,33,36,.12)'   },

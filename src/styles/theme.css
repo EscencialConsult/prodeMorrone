@@ -345,6 +345,8 @@
   background: var(--color-surface-cream);
 }
 
+.mhb { display: none; }
+
 @media (max-width: 860px) {
   .dnav { display: none !important; }
   .mhb { display: flex !important; }
@@ -622,5 +624,30 @@
 
   .home-footer-legal {
     align-items: flex-start !important;
+  }
+}
+
+/* ============================================================
+   MOBILE GLOBAL OVERRIDES — touch targets, safe areas, overflow
+   ============================================================ */
+
+@media (max-width: 640px) {
+  .shell-page {
+    overflow-x: hidden;
+  }
+
+  .shell-main {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* Forzar touch targets de 44px en móvil */
+  button, a, [role="button"], [tabindex]:not([tabindex="-1"]) {
+    min-height: 44px;
+  }
+
+  /* Reducir padding lateral del contenido principal */
+  .shell-main > div {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
   }
 }

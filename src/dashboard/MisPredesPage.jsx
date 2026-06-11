@@ -200,7 +200,7 @@ export default function MisPredesPage(){
         </div>
 
         {/* Filtros */}
-        <div className="din" style={{display:'flex',gap:'.3rem',marginBottom:'1.4rem',animationDelay:'80ms'}}>
+        <div className="din mispredes-filters" style={{display:'flex',gap:'.3rem',marginBottom:'1.4rem',animationDelay:'80ms',overflowX:'auto',scrollbarWidth:'none'}}>
           {[{k:'todas',l:'Todas'},{k:'con',l:`Con predicción (${betsConPred.length})`},{k:'sin',l:`Sin predicción (${betsSinPred.length})`}].map(({k,l})=>(
             <button key={k} onClick={()=>setFiltro(k)} style={{padding:'.34rem .82rem',borderRadius:99,fontFamily:"'DM Sans',sans-serif",fontWeight:700,fontSize:'.72rem',textTransform:'uppercase',letterSpacing:'.05em',cursor:'pointer',transition:'all .15s',background:filtro===k?'#202124':'#fff',color:filtro===k?'#b8a06a':'#6f7377',border:filtro===k?'1px solid transparent':'1px solid #dedbd4',boxShadow:filtro===k?'0 2px 8px rgba(32,33,36,.18)':'none'}}>
               {l}

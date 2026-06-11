@@ -340,7 +340,7 @@ function MatchCard({ match, faseLabel }) {
 // ──────────────────────────────────────────────────────────────────
 function ColumnaFase({ fase, partidos, idx, collapsed, onToggle }) {
   return (
-    <div className="flex flex-col items-stretch gap-4">
+    <div className="elim-fase-col flex flex-col items-stretch gap-4">
       {/* Header de fase CLICKEABLE */}
       <div 
         className="relative flex items-center gap-3 cursor-pointer group/header"
@@ -359,13 +359,13 @@ function ColumnaFase({ fase, partidos, idx, collapsed, onToggle }) {
         </span>
         <div className="min-w-0 flex-1">
           <div
-            className="text-[0.95rem] font-black leading-none tracking-tight"
+            className="elim-fase-header-text text-[0.95rem] font-black leading-none tracking-tight"
             style={{ color: C.ink, fontFamily: "'DM Sans',sans-serif", letterSpacing: '-0.02em' }}
           >
             {FASES_ES[fase]}
           </div>
           <div
-            className="mt-1 text-[0.6rem] font-semibold uppercase tracking-[0.16em]"
+            className="elim-fase-header-sub mt-1 text-[0.6rem] font-semibold uppercase tracking-[0.16em]"
             style={{ color: C.steel, fontFamily: "'DM Sans',sans-serif" }}
           >
             {FASES_LABEL[fase]} · {partidos.length}
@@ -712,7 +712,7 @@ export default function Eliminatorias({ matches }) {
     <div className="overflow-hidden rounded-[20px]" style={{ background: C.cream }}>
       {/* HERO HEADER tipo broadcast FIFA */}
       <div
-        className="relative overflow-hidden px-6 py-5"
+        className="elim-hero relative overflow-hidden px-6 py-5"
         style={{
           background: `linear-gradient(120deg, ${C.ink} 0%, ${C.inkSoft} 60%, ${C.ink} 100%)`,
         }}
@@ -745,7 +745,7 @@ export default function Eliminatorias({ matches }) {
               Eliminatorias - <span style={{ color: C.goldHi }}>Camino a la Gloria</span>
             </h2>
             <p
-              className="mt-1.5 text-[0.72rem] font-medium"
+              className="elim-hero-sub mt-1.5 text-[0.72rem] font-medium"
               style={{ color: C.mute, fontFamily: "'DM Sans',sans-serif" }}
             >
             Fase de eliminación directa
@@ -757,7 +757,7 @@ export default function Eliminatorias({ matches }) {
 
       {/* BRACKET */}
       <div className="overflow-x-auto px-3 py-6 [-webkit-overflow-scrolling:touch]">
-        <div className="flex min-w-min items-start gap-4">
+        <div className="elim-bracket-cols flex min-w-min items-start gap-4">
           {FASES_ORDEN.map((f, i) => (
             <ColumnaFase 
               key={f} 
@@ -773,7 +773,7 @@ export default function Eliminatorias({ matches }) {
 
       {/* Footer */}
       <div
-        className="flex items-center justify-between px-6 py-3"
+        className="elim-footer flex items-center justify-between px-6 py-3"
         style={{
           background: C.creamHi,
           borderTop: `1px solid ${C.line}`,
@@ -785,7 +785,7 @@ export default function Eliminatorias({ matches }) {
         >
           Live bracket · auto update
         </span>
-        <div className="flex items-center gap-3">
+        <div className="elim-footer-legend flex items-center gap-3">
           <Legend color={C.gold}  label="Clasifica" />
           <Legend color={C.red}   label="En vivo"  pulse />
           <Legend color={C.steel} label="Próximo"  />

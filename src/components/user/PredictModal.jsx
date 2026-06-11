@@ -382,7 +382,7 @@ export default function PredictModal({ bet, onSubmit, onClose, loading }) {
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
               {open && (
-                <span className={`hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-bold tracking-wider uppercase border ${
+                <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-bold tracking-wider uppercase border ${
                   isClosingSoon 
                     ? 'bg-red-50 text-red-600 border-red-300' 
                     : 'bg-yellow-50 text-yellow-700 border-yellow-300'
@@ -445,9 +445,9 @@ export default function PredictModal({ bet, onSubmit, onClose, loading }) {
             </div>
           </div>
 
-          {/* Matches List - IGUAL QUE ANTES, SIN CAMBIOS */}
+          {/* Matches List */}
           <div 
-            className="flex-1 overflow-y-auto px-4 sm:px-6 py-3 scroll-smooth scrollbar-thin scrollbar-thumb-slate-300 hover:scrollbar-thumb-yellow-500 scrollbar-track-slate-100"
+            className="predict-modal-matches-list flex-1 overflow-y-auto px-4 sm:px-6 py-3 scroll-smooth scrollbar-thin scrollbar-thumb-slate-300 hover:scrollbar-thumb-yellow-500 scrollbar-track-slate-100"
             ref={listRef}
           >
             {/* ... TODO EL CONTENIDO DE LOS PARTIDOS IGUAL QUE ANTES ... */}
@@ -494,7 +494,7 @@ export default function PredictModal({ bet, onSubmit, onClose, loading }) {
                   key={match.id}
                   ref={el => { matchRefs.current[match.id] = el }}
                   data-match-id={match.id}
-                  className={`bg-white rounded-xl mb-2.5 overflow-hidden shadow-sm border transition-all duration-200 hover:shadow-md ${
+                  className={`predict-modal-match bg-white rounded-xl mb-2.5 overflow-hidden shadow-sm border transition-all duration-200 hover:shadow-md ${
                     completo && !isLive && !isFinished 
                       ? 'border-yellow-400 shadow-yellow-500/10' 
                       : isLive 
@@ -503,12 +503,24 @@ export default function PredictModal({ bet, onSubmit, onClose, loading }) {
                   }`}
                 >
                   <div className="flex items-center justify-between px-3 py-2 bg-slate-900 text-white">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 min-w-0">
                       <span className="bg-slate-800 text-yellow-400 text-[10px] font-black px-2 py-0.5 rounded min-w-[32px] text-center border border-yellow-400/30">
                         {String(idx + 1).padStart(2, '0')}
                       </span>
-                      <span className="text-[10px] font-bold tracking-wider uppercase">Partido</span>
-                      {elim && <span className="text-[9px] font-bold text-yellow-400 uppercase">- Elim</span>}
+                      <span className="text-[10px] font-bold tracking-wider uppercase flex-shrink-0">Partido</span>
+                      {elim && <span className="text-[9px] font-bold text-yellow-400 uppercase flex-shrink-0">- Elim</span>}
+                      {match.fecha_partido && (
+                        <span className="hidden sm:inline-flex items-center gap-1 text-[9px] font-semibold text-slate-400 ml-1 truncate">
+                          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="flex-shrink-0">
+                            <rect x="3" y="4" width="18" height="18" rx="2" />
+                            <line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" />
+                            <line x1="3" y1="10" x2="21" y2="10" />
+                          </svg>
+                          {new Date(match.fecha_partido).toLocaleDateString('es-AR', { day: '2-digit', month: 'short' }).toUpperCase().replace('.', '')}
+                          {' '}
+                          {new Date(match.fecha_partido).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                      )}
                     </div>
                     <div className="flex items-center gap-1.5">
                       {isLive && (
@@ -533,24 +545,36 @@ export default function PredictModal({ bet, onSubmit, onClose, loading }) {
                     </div>
                   </div>
 
+                  {match.fecha_partido && (
+                    <div className="sm:hidden flex items-center justify-center gap-1.5 px-3 py-1.5 bg-slate-100 border-b border-slate-200 text-[9px] font-semibold text-slate-500">
+                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="flex-shrink-0">
+                        <rect x="3" y="4" width="18" height="18" rx="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                      </svg>
+                      {new Date(match.fecha_partido).toLocaleDateString('es-AR', { day: '2-digit', month: 'short' }).toUpperCase().replace('.', '')}
+                      {' · '}
+                      {new Date(match.fecha_partido).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}
+                    </div>
+                  )}
                   <div className="grid grid-cols-[1fr_auto_1fr] items-center">
                     <div className="flex items-center gap-2.5 p-3 bg-gradient-to-r from-slate-50 to-white border-r border-slate-200">
                       {match.bandera_local && (
-                        <img src={match.bandera_local} alt="" className="w-10 h-7 object-cover rounded shadow-sm flex-shrink-0" />
+                        <img src={match.bandera_local} alt="" className="flags-img w-10 h-7 object-cover rounded shadow-sm flex-shrink-0" />
                       )}
                       <div className="flex-1 min-w-0">
                         {match.codigo_local && (
-                          <div className="text-[9px] font-black tracking-wider text-yellow-600 uppercase mb-0.5">
+                          <div className="team-code text-[9px] font-black tracking-wider text-yellow-600 uppercase mb-0.5">
                             {match.codigo_local}
                           </div>
                         )}
-                        <div className="text-sm font-black text-slate-900 leading-tight truncate">
+                        <div className="team-name text-sm font-black text-slate-900 leading-tight truncate">
                           {match.equipo_local}
                         </div>
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-center gap-2 px-4 py-3 bg-slate-900">
+                    <div className="predict-modal-scores-grid flex items-center justify-center gap-2 px-2 sm:px-4 py-3 bg-slate-900">
                       <input
                         type="text"
                         inputMode="numeric"
@@ -559,7 +583,7 @@ export default function PredictModal({ bet, onSubmit, onClose, loading }) {
                         onChange={e => updateScore(match.id, 'local', e.target.value)}
                         placeholder="-"
                         disabled={isDisabled}
-                        className="w-11 h-11 text-2xl text-center font-black bg-white text-slate-900 border-2 border-yellow-400 rounded-lg outline-none transition-all focus:border-yellow-300 focus:shadow-lg focus:shadow-yellow-500/30 focus:scale-105 disabled:bg-slate-200 disabled:text-slate-400 disabled:border-slate-300 disabled:cursor-not-allowed tabular-nums"
+                        className="score-input w-11 h-11 text-2xl text-center font-black bg-white text-slate-900 border-2 border-yellow-400 rounded-lg outline-none transition-all focus:border-yellow-300 focus:shadow-lg focus:shadow-yellow-500/30 focus:scale-105 disabled:bg-slate-200 disabled:text-slate-400 disabled:border-slate-300 disabled:cursor-not-allowed tabular-nums"
                       />
                       <span className="text-2xl font-black text-yellow-400">:</span>
                       <input
@@ -570,23 +594,23 @@ export default function PredictModal({ bet, onSubmit, onClose, loading }) {
                         onChange={e => updateScore(match.id, 'visitante', e.target.value)}
                         placeholder="-"
                         disabled={isDisabled}
-                        className="w-11 h-11 text-2xl text-center font-black bg-white text-slate-900 border-2 border-yellow-400 rounded-lg outline-none transition-all focus:border-yellow-300 focus:shadow-lg focus:shadow-yellow-500/30 focus:scale-105 disabled:bg-slate-200 disabled:text-slate-400 disabled:border-slate-300 disabled:cursor-not-allowed tabular-nums"
+                        className="score-input w-11 h-11 text-2xl text-center font-black bg-white text-slate-900 border-2 border-yellow-400 rounded-lg outline-none transition-all focus:border-yellow-300 focus:shadow-lg focus:shadow-yellow-500/30 focus:scale-105 disabled:bg-slate-200 disabled:text-slate-400 disabled:border-slate-300 disabled:cursor-not-allowed tabular-nums"
                       />
                     </div>
 
                     <div className="flex items-center gap-2.5 p-3 text-right bg-gradient-to-l from-slate-50 to-white border-l border-slate-200">
                       <div className="flex-1 min-w-0">
                         {match.codigo_visitante && (
-                          <div className="text-[9px] font-black tracking-wider text-yellow-600 uppercase mb-0.5">
+                          <div className="team-code text-[9px] font-black tracking-wider text-yellow-600 uppercase mb-0.5">
                             {match.codigo_visitante}
                           </div>
                         )}
-                        <div className="text-sm font-black text-slate-900 leading-tight truncate">
+                        <div className="team-name text-sm font-black text-slate-900 leading-tight truncate">
                           {match.equipo_visitante}
                         </div>
                       </div>
                       {match.bandera_visitante && (
-                        <img src={match.bandera_visitante} alt="" className="w-10 h-7 object-cover rounded shadow-sm flex-shrink-0" />
+                        <img src={match.bandera_visitante} alt="" className="flags-img w-10 h-7 object-cover rounded shadow-sm flex-shrink-0" />
                       )}
                     </div>
                   </div>

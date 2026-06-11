@@ -1326,3 +1326,240 @@ body:has(.sh-in) {
   .rk-podio-grid { grid-template-columns: 1fr !important; }
   .rk-partido-row { grid-template-columns: 1fr 58px 58px 50px; }
 }
+
+/* ── AppShell mobile ── */
+@media (max-width: 640px) {
+  .mob-hide-live { display: none !important; }
+
+  .shell-logout-popover {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    min-width: unset !important;
+    border-radius: 16px 16px 0 0 !important;
+    box-shadow: 0 -8px 32px rgba(32,33,36,.22) !important;
+    border-bottom: none !important;
+    padding: 1.2rem 1rem env(safe-area-inset-bottom, 1rem) !important;
+  }
+
+  .shell-logout-arrow { display: none !important; }
+
+  .shell-logout-popover .shell-popover-btn,
+  .shell-logout-popover .shell-popover-danger {
+    min-height: 44px;
+    flex: 1;
+  }
+
+  .shell-logout-popover > div:last-child {
+    gap: .75rem !important;
+  }
+}
+
+/* ── Eliminatorias (Bracket) mobile ── */
+@media (max-width: 640px) {
+  .elim-bracket-cols {
+    gap: 0.75rem !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  .elim-fase-col {
+    min-width: 140px !important;
+    max-width: 160px !important;
+  }
+
+  .elim-fase-col .w-\[180px\] {
+    width: 140px !important;
+  }
+  .elim-fase-col .w-\[220px\] {
+    width: 155px !important;
+  }
+  .elim-fase-col .w-\[240px\] {
+    width: 160px !important;
+  }
+
+  .elim-hero {
+    padding: 1rem 1rem !important;
+  }
+
+  .elim-hero h2 {
+    font-size: 1.1rem !important;
+  }
+
+  .elim-hero-sub {
+    font-size: 0.6rem !important;
+  }
+
+  .elim-fase-header-text {
+    font-size: 0.78rem !important;
+  }
+
+  .elim-fase-header-sub {
+    font-size: 0.5rem !important;
+  }
+
+  .elim-footer {
+    padding: 0.5rem 1rem !important;
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+    align-items: flex-start !important;
+  }
+
+  .elim-empty-state {
+    padding: 1.5rem 1rem !important;
+  }
+}
+
+/* ── FixturePage mobile ── */
+@media (max-width: 640px) {
+  .fixture-tabs {
+    width: 100% !important;
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .fixture-tabs::-webkit-scrollbar { display: none; }
+
+  .fixture-tabs button {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .fixture-filters {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 0.25rem;
+  }
+  .fixture-filters::-webkit-scrollbar { display: none; }
+
+  .fixture-filters > div {
+    flex-shrink: 0;
+  }
+
+  .fixture-search {
+    min-width: 140px !important;
+    width: 100% !important;
+    flex-shrink: 0;
+  }
+}
+
+/* ── DashboardPage mobile ── */
+@media (max-width: 640px) {
+  .dash-stats-grid .dash-stat-card {
+    padding: 0.75rem !important;
+  }
+  .dash-hero-ctas a {
+    width: 100%;
+    justify-content: center;
+  }
+  .dash-hero-ctas {
+    width: 100%;
+  }
+}
+
+/* ── Ranking pages mobile polish ── */
+@media (max-width: 640px) {
+  .rk-banner {
+    padding: 12px 14px !important;
+  }
+  .rk-banner-title {
+    font-size: 1rem !important;
+  }
+  .rk-banner-stat-val {
+    font-size: 1rem !important;
+  }
+  .rk-podio-card {
+    padding: 0.75rem !important;
+  }
+  .rk-podio-pts {
+    padding: 0.25rem 0.6rem !important;
+  }
+  .rk-detalle-body {
+    padding: 0.75rem !important;
+  }
+  .rk-detalle-header {
+    padding: 0.5rem 0.75rem !important;
+  }
+}
+
+/* ── BetsPage mobile ── */
+@media (max-width: 640px) {
+  .bets-filter-bar {
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .bets-filter-bar::-webkit-scrollbar { display: none; }
+
+  .bets-filter-bar button {
+    flex-shrink: 0;
+  }
+
+  .bets-puntos-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── PredictModal mobile ── */
+@media (max-width: 640px) {
+  .predict-modal-match {
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  .predict-modal-match .flags-img {
+    width: 1.5rem !important;
+    height: 1rem !important;
+  }
+
+  .predict-modal-match .score-input {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    font-size: 1.1rem !important;
+  }
+
+  .predict-modal-match .team-name {
+    font-size: 0.7rem !important;
+  }
+
+  .predict-modal-match .team-code {
+    font-size: 0.55rem !important;
+  }
+
+  .predict-modal-match > .grid > div:first-child,
+  .predict-modal-match > .grid > div:last-child {
+    padding: 0.5rem !important;
+    gap: 0.4rem !important;
+  }
+
+  .predict-modal-scores-grid {
+    gap: 0.15rem !important;
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
+  }
+
+  .predict-modal-scores-grid .score-input {
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+    font-size: 1rem !important;
+  }
+
+  .predict-modal-matches-list {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  .predict-modal-matches-list .match-card {
+    margin-bottom: 0.5rem !important;
+  }
+
+  .predict-modal-matches-list > div:first-child {
+    padding: 0.5rem !important;
+  }
+}

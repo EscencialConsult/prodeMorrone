@@ -162,6 +162,8 @@ export default function AppShell({ children }) {
             flexShrink: 0,
             zIndex: 50,
             borderBottom: '1px solid rgba(184,160,106,.14)',
+            position: 'sticky',
+            top: 0,
           }}
         >
 <div
@@ -212,7 +214,7 @@ export default function AppShell({ children }) {
 )}
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '.6rem', marginLeft: 'auto' }}>
-              <span
+              <span className="mob-hide-live"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -327,7 +329,7 @@ export default function AppShell({ children }) {
                     />
 
                     <div
-                      className="pop-in"
+                      className="pop-in shell-logout-popover"
                       style={{
                         position: 'absolute',
                         top: 'calc(100% + 8px)',
@@ -342,6 +344,7 @@ export default function AppShell({ children }) {
                       }}
                     >
                       <div
+                        className="shell-logout-arrow"
                         style={{
                           position: 'absolute',
                           top: -6,
@@ -425,14 +428,16 @@ export default function AppShell({ children }) {
                 className="mhb"
                 onClick={() => setMob(v => !v)}
                 style={{
-                  display: 'none',
                   background: 'transparent',
                   border: '1px solid rgba(255,255,255,.14)',
                   borderRadius: 7,
-                  padding: '.36rem',
+                  padding: '.5rem',
                   cursor: 'pointer',
                   color: 'rgba(255,255,255,.6)',
                   alignItems: 'center',
+                  justifyContent: 'center',
+                  minWidth: 44,
+                  minHeight: 44,
                 }}
               >
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
