@@ -9,6 +9,7 @@ import AppShell from '../dashboard/AppShell.jsx'
 import { useBets } from '../hooks/useBets.jsx'
 import { useAuth } from '../hooks/useAuth.jsx'
 import sheetsApi from '../services/sheetsApi.js'
+import VistaGlobal from '../components/ranking/VistaGlobal.jsx'
 
 /* ─── helpers ─── */
 function isOpen(b)   { return b.estado==='abierta' && new Date(b.fecha_cierre)>Date.now() }
@@ -86,10 +87,31 @@ export default function RankingPageAdmin() {
   const { bets, loading:lb } = useBets()
   const { user }  = useAuth()
 
+  const [modo, setModo]           = useState('global')   // 'global' | 'apuesta'
   const [sel, setSel]             = useState(null)
   const [tabla, setTabla]         = useState([])
   const [meta, setMeta]           = useState({})
   const [loading, setLoading]     = useState(false)
+
+  // ── Ranking global (carga al montar) ──
+  const [gTabla, setGTabla]       = useState([])
+  const [gMeta, setGMeta]         = useState({})
+  const [gLoading, setGLoading]   = useState(true)
+
+  useEffect(() => {
+    let cancel = false
+    ;(async () => {
+      setGLoading(true)
+      try {
+        const r = await sheetsApi.predicciones.tablaGlobal()
+        if (cancel) return
+        setGTabla(r.tabla || [])
+        setGMeta({ total:r.total, mi_posicion:r.mi_posicion, esta_en_top:r.esta_en_top })
+      } catch (e) { if (!cancel) console.error(e.message) }
+      finally { if (!cancel) setGLoading(false) }
+    })()
+    return () => { cancel = true }
+  }, [])
 
   const [expandedUser, setExpandedUser] = useState(null)
   const [predicciones, setPredicciones] = useState({})
@@ -104,6 +126,7 @@ export default function RankingPageAdmin() {
   }, [sel])
 
   async function cargarRanking(bet) {
+    setModo('apuesta')
     if (sel?.id===bet.id) return
     setSel(bet); setLoading(true); setTabla([]); setMeta({})
     setExpandedUser(null); setPredicciones({}); setLoadingUser(null)
@@ -177,7 +200,7 @@ export default function RankingPageAdmin() {
             <span style={{color:'#b8a06a'}}>ADMIN</span>
           </h1>
           <p style={{ fontSize:'.84rem', color:'#6f7377', margin:0 }}>
-            {sel ? sel.titulo : 'Seleccioná una apuesta para ver el detalle'}
+            {modo==='global' ? 'Clasificación general · suma de todas las apuestas' : (sel ? sel.titulo : 'Seleccioná una apuesta para ver el detalle')}
           </p>
         </div>
 
@@ -193,6 +216,9 @@ export default function RankingPageAdmin() {
             </div>
 
             <div className="rk-sidebar-scroll">
+              {/* 🏆 Ranking Global — siempre primero, seleccionado por defecto */}
+              <GlobalRow sel={modo==='global'} total={gMeta.total} onPick={()=>setModo('global')}/>
+
               {lb ? (
                 <div style={{padding:12,display:'flex',flexDirection:'column',gap:4}}>
                   {[...Array(6)].map((_,i)=><div key={i} className="rk-sk" style={{height:52}}/>)}
@@ -218,7 +244,9 @@ export default function RankingPageAdmin() {
 
           <div className="rk-content" style={{padding:'24px 32px 32px'}}>
 
-            {!sel ? (
+            {modo==='global' ? (
+              <VistaGlobal tabla={gTabla} meta={gMeta} loading={gLoading} user={user}/>
+            ) : !sel ? (
               <EmptySelect/>
             ) : (
               <div className="rk-in">
@@ -293,6 +321,25 @@ function SideSection({ label, dot, children }) {
         <span style={{fontSize:8,fontWeight:700,textTransform:'uppercase',letterSpacing:'.18em',color:'#b8c0cc'}}>{label}</span>
       </div>
       {children}
+    </div>
+  )
+}
+
+function GlobalRow({ sel, total, onPick }) {
+  return (
+    <div className={`rk-row${sel?' sel':''}`} onClick={onPick} style={{borderBottom:'1px solid #dedbd4'}}>
+      <div style={{width:20,textAlign:'center',flexShrink:0,fontSize:14}}>🏆</div>
+      <div style={{flex:1,minWidth:0}}>
+        <p style={{fontSize:12,fontWeight:700,color:sel?'#fff':'#202124',margin:'0 0 2px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>
+          Ranking Global
+        </p>
+        <p style={{fontSize:10,color:sel?'#b8a06a':'#94a3b8',margin:0}}>
+          Suma de todas las apuestas{total>0?` · ${total} part`:''}
+        </p>
+      </div>
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={sel?'#b8a06a':'#c8c9cc'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
     </div>
   )
 }

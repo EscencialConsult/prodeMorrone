@@ -1,0 +1,4 @@
+# Ignorar todo el proyecto y subir solo los archivos del Apps Script
+**/**
+!api.js
+!appsscript.json

@@ -269,6 +269,14 @@ const predicciones = {
     if (opciones.limit) params.limit = opciones.limit
     return get('predicciones.tabla', params, { useCache: false })
   },
+
+  // Ranking global: suma de puntos de TODAS las apuestas por participante.
+  // Devuelve la misma forma que tabla(): { tabla, total, mi_posicion, esta_en_top, apuesta_titulo }
+  tablaGlobal: (opciones = {}) => {
+    const params = {}
+    if (opciones.limit) params.limit = opciones.limit
+    return get('predicciones.tabla_global', params, { useCache: false })
+  },
 }
 
 const grupos = {
