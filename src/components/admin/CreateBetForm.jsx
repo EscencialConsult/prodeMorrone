@@ -254,17 +254,12 @@ export default function CreateBetForm({ onSubmit, loading, matches = [] }) {
       return
     }
 
-    if (errorFecha) {
-      toast.error('Corregí la fecha límite antes de continuar.')
-      return
-    }
-
     try {
       const payload = {
         titulo: form.titulo,
         tipo: form.type,
         premio: form.premio,
-        fecha_cierre: inputLocalAIsoUtc(form.fecha_cierre),
+        // Cierre por partido: el backend calcula fecha_cierre como el inicio del último partido.
         partidos_ids: form.partidos_ids.join(',')
       }
       if (isPro && form.type === 'grupos') {
@@ -288,7 +283,7 @@ export default function CreateBetForm({ onSubmit, loading, matches = [] }) {
     }
   }
 
-  const canSubmit = !loading && seleccionados > 0 && !errorFecha && form.fecha_cierre
+  const canSubmit = !loading && seleccionados > 0
 
   const maxFechaCierre = useMemo(() => {
     if (!primerPartido) return ''
@@ -607,41 +602,28 @@ export default function CreateBetForm({ onSubmit, loading, matches = [] }) {
         </div>
       )}
 
-      {/* Premio + Fecha */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Field
-          label="Premio / Incentivo"
-          value={form.premio}
-          onChange={e => setForm(p => ({ ...p, premio: e.target.value }))}
-          required
-          placeholder="Ej: Gift card $50"
-        />
-        <div className="flex flex-col gap-1.5">
-          <Field
-            label={primerPartido
-              ? `Fecha límite (antes del ${fmtFecha(primerPartido.fecha_partido)})`
-              : 'Fecha límite (seleccioná partidos primero)'}
-            type="datetime-local"
-            value={form.fecha_cierre}
-            min={minFechaCierre}
-            max={maxFechaCierre || undefined}
-            onChange={e => setForm(p => ({ ...p, fecha_cierre: e.target.value }))}
-            error={errorFecha}
-            disabled={!primerPartido}
-            required
-          />
-          {primerPartido && !errorFecha && (
-            <div className="flex items-start gap-2 px-3 py-2 rounded-lg"
-              style={{ background: 'rgba(184,160,106,0.06)', border: '1px solid rgba(184,160,106,0.15)' }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8f7a45" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5">
-                <circle cx="12" cy="12" r="10"/>
-                <line x1="12" y1="16" x2="12" y2="12"/>
-                <line x1="12" y1="8" x2="12.01" y2="8"/>
-              </svg>
-              <span className="font-body text-[11px]" style={{ color: '#6f7377' }}>
-                El primer partido es <strong style={{ color: '#1f2023' }}>{primerPartido.equipo_local} vs {primerPartido.equipo_visitante}</strong> el {fmtFecha(primerPartido.fecha_partido)}.
-              </span>
-            </div>
+      {/* Premio */}
+      <Field
+        label="Premio / Incentivo"
+        value={form.premio}
+        onChange={e => setForm(p => ({ ...p, premio: e.target.value }))}
+        required
+        placeholder="Ej: Gift card $50"
+      />
+
+      {/* Aviso de cierre por partido (estilo Sogefi) */}
+      <div className="flex items-start gap-2.5 px-4 py-3 rounded-xl"
+        style={{ background: 'rgba(184,160,106,0.06)', border: '1px solid rgba(184,160,106,0.2)' }}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8f7a45" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <div className="font-body text-[12px] leading-relaxed" style={{ color: '#6f7377' }}>
+          <strong style={{ color: '#1f2023' }}>Cierre automático por partido.</strong>{' '}
+          Cada partido acepta pronósticos hasta el momento exacto de su inicio. No hace falta elegir una fecha límite:
+          el usuario puede ir cargando partido por partido y la apuesta queda abierta hasta que comience el último.
+          {primerPartido && (
+            <> Primer partido: <strong style={{ color: '#1f2023' }}>{primerPartido.equipo_local} vs {primerPartido.equipo_visitante}</strong> el {fmtFecha(primerPartido.fecha_partido)}.</>
           )}
         </div>
       </div>

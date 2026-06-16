@@ -260,6 +260,24 @@ function yaVencio_(fechaGuardada) {
     return false;
   }
 }
+/**
+ * Cierre POR PARTIDO (estilo Sogefi).
+ * Devuelve true si el partido ya no admite pronósticos: porque su estado
+ * dejó de ser "programado" (en_vivo/finalizado/cancelado) o porque ya llegó
+ * su hora de inicio (fecha_hora). Es la pieza central del cierre individual:
+ * cada partido se bloquea solo, sin depender de la fecha_cierre global.
+ */
+function partidoYaEmpezo_(partido) {
+  if (!partido) return true;
+  const estado = normalizarEstado_(partido.estado);
+  if (estado === 'en_vivo' || estado === 'finalizado' || estado === 'cancelado') return true;
+  const iso = fechaArgentinaAIsoUtc_(partido.fecha_hora);
+  if (!iso) return false;
+  const ts = new Date(iso).getTime();
+  if (isNaN(ts)) return false;
+  return Date.now() >= ts;
+}
+
 function bootstrapAdmin_() {
   const email = 'admin@gmail.com'.trim().toLowerCase();
   const usuarios = getSheet_(SHEETS.USUARIOS, false);
@@ -647,7 +665,9 @@ function apuestasObtener_(params) {
 
 function apuestasCrear_(body) {
   const admin = requireAdmin_(body.session_token);
-  requireFields_(body, ['titulo', 'tipo', 'premio', 'fecha_cierre', 'partidos_ids']);
+  // fecha_cierre ya NO es requerida: el cierre es por partido (a su hora de inicio).
+  // La fecha_cierre global se calcula automáticamente como el inicio del último partido.
+  requireFields_(body, ['titulo', 'tipo', 'premio', 'partidos_ids']);
   if (!['libre', 'grupos'].includes(body.tipo)) throw new Error('Tipo de apuesta inválido. Use "libre" o "grupos"');
 
   if (body.tipo === 'grupos' && esPlanBasic_(admin)) {
@@ -662,22 +682,19 @@ function apuestasCrear_(body) {
     areasIdsStr = areasArr.map(id => id.trim()).join(',');
   }
 
-  const fechaCierreIso = toIsoUtc_(body.fecha_cierre);
-  if (new Date(fechaCierreIso).getTime() <= Date.now()) {
-    throw new Error('La fecha de cierre debe ser futura');
-  }
-
   const partidosIds = Array.isArray(body.partidos_ids) ? body.partidos_ids : body.partidos_ids.split(',').map(id => id.trim());
   if (!partidosIds.length) throw new Error('Debe incluir al menos un partido');
   const todosPartidos = getSheet_(SHEETS.PARTIDOS);
   const partidosMap = new Map(todosPartidos.map(p => [p.id, p]));
   partidosIds.forEach(pid => { if (!partidosMap.has(pid)) throw new Error(`Partido no encontrado: ${pid}`); });
 
-  // ✅ VALIDACIÓN CRÍTICA: la fecha de cierre debe ser ANTERIOR al inicio del primer partido
-  // (si no, los usuarios podrían apostar con el partido en curso o ya jugado)
-  const fechaCierreTs = new Date(fechaCierreIso).getTime();
-  let primerPartidoTs = Infinity;
-  let primerPartidoInfo = null;
+  // 🔓 CIERRE POR PARTIDO (estilo Sogefi):
+  // Cada partido se bloquea por sí mismo al llegar su hora de inicio (ver
+  // partidoYaEmpezo_ en prediccionesGuardar_). Por eso ya NO se exige que la
+  // fecha_cierre sea anterior al primer partido. La fecha_cierre global se
+  // calcula como el inicio del ÚLTIMO partido: solo sirve de referencia y
+  // para el cierre automático total de la apuesta.
+  let ultimoPartidoTs = -Infinity;
   partidosIds.forEach(pid => {
     const p = partidosMap.get(pid);
     if (!p || !p.fecha_hora) return;
@@ -685,19 +702,11 @@ function apuestasCrear_(body) {
     if (!isoPartido) return;
     const ts = new Date(isoPartido).getTime();
     if (isNaN(ts)) return;
-    if (ts < primerPartidoTs) {
-      primerPartidoTs = ts;
-      primerPartidoInfo = p;
-    }
+    if (ts > ultimoPartidoTs) ultimoPartidoTs = ts;
   });
-  if (primerPartidoInfo && fechaCierreTs >= primerPartidoTs) {
-    const fechaPartidoStr = Utilities.formatDate(new Date(primerPartidoTs), TZ_SERVIDOR, 'dd/MM/yyyy HH:mm');
-    throw new Error(
-      `La fecha de cierre debe ser anterior al inicio del primer partido. ` +
-      `El primer partido (${primerPartidoInfo.local} vs ${primerPartidoInfo.visitante}) ` +
-      `comienza el ${fechaPartidoStr} (hora Argentina).`
-    );
-  }
+  const fechaCierreIso = ultimoPartidoTs > -Infinity
+    ? new Date(ultimoPartidoTs).toISOString()
+    : (body.fecha_cierre ? toIsoUtc_(body.fecha_cierre) : '');
 
   const newApuesta = {
     id: makeId_('APU'), titulo: body.titulo.trim(), descripcion: body.descripcion || '',
@@ -759,11 +768,26 @@ function apuestasFinalizar_(body) {
 }
 
 function cerrarApuestasVencidas() {
+  // Con cierre por partido, una apuesta solo se cierra del todo cuando TODOS
+  // sus partidos ya comenzaron (no al primero, como antes). Mientras quede al
+  // menos un partido sin empezar, la apuesta sigue "abierta".
+  const todosPartidos = getSheet_(SHEETS.PARTIDOS, false);
+  const partidosMap = new Map(todosPartidos.map(p => [p.id, p]));
   getSheet_(SHEETS.APUESTAS, false)
-    .filter(a => a.estado === 'abierta' && yaVencio_(a.fecha_cierre))
+    .filter(a => a.estado === 'abierta')
     .forEach(a => {
-      updateField_(SHEETS.APUESTAS, a.id, 'estado', 'cerrada');
-      registrarAuditoria_('SISTEMA', 'CIERRE_AUTO', `Apuesta cerrada automáticamente: ${a.id}`);
+      const ids = a.partidos_ids
+        ? String(a.partidos_ids).split(',').map(s => s.trim()).filter(Boolean)
+        : [];
+      if (!ids.length) return;
+      const todosEmpezaron = ids.every(id => {
+        const p = partidosMap.get(id);
+        return p ? partidoYaEmpezo_(p) : true;
+      });
+      if (todosEmpezaron) {
+        updateField_(SHEETS.APUESTAS, a.id, 'estado', 'cerrada');
+        registrarAuditoria_('SISTEMA', 'CIERRE_AUTO', `Apuesta cerrada automáticamente (todos los partidos comenzaron): ${a.id}`);
+      }
     });
 }
 
@@ -919,8 +943,11 @@ function prediccionesGuardar_(body) {
   requireFields_(body, ['apuesta_id', 'partido_id', 'pred_local', 'pred_visitante']);
   const apuesta = findById_(SHEETS.APUESTAS, body.apuesta_id);
   if (!apuesta) throw new Error('Apuesta no encontrada');
-  if (apuesta.estado !== 'abierta') throw new Error('La apuesta no está abierta');
-  if (yaVencio_(apuesta.fecha_cierre)) throw new Error('El tiempo límite ya expiró');
+  // Cierre POR PARTIDO (estilo Sogefi): el campo "estado" de la apuesta NO bloquea.
+  // Una apuesta "cerrada" sigue aceptando pronósticos para los partidos que no
+  // empezaron. Solo "finalizada" (ya puntuada) es un bloqueo real. El bloqueo fino
+  // por partido lo hace partidoYaEmpezo_ (más abajo).
+  if (apuesta.estado === 'finalizada') throw new Error('La apuesta ya está finalizada');
 
   let areaPrediccion = '';
   if (apuesta.tipo === 'grupos') {
@@ -935,6 +962,12 @@ function prediccionesGuardar_(body) {
   if (!partidosIds.includes(body.partido_id)) throw new Error('El partido no pertenece a esta apuesta');
   const partido = findById_(SHEETS.PARTIDOS, body.partido_id);
   if (!partido) throw new Error('Partido no encontrado');
+
+  // 🔒 Cierre POR PARTIDO: si este partido ya inició (o no está programado),
+  // no se aceptan más pronósticos para él (aunque otros partidos sigan abiertos).
+  if (partidoYaEmpezo_(partido)) {
+    throw new Error('Este partido ya comenzó: los pronósticos están cerrados.');
+  }
 
   const predLocal = parseInt(body.pred_local);
   const predVisitante = parseInt(body.pred_visitante);
@@ -1556,21 +1589,44 @@ function procesarPartidosFinalizados() {
   try {
     const inicio = new Date();
 
-    // ── PASO 1: Cerrar apuestas con fecha de cierre vencida ──
+    // ── PASO 1: Sincronizar estado de apuestas según sus partidos ──
+    // Cierre POR PARTIDO (estilo Sogefi):
+    //  - Si TODOS los partidos ya comenzaron      → la apuesta pasa a "cerrada".
+    //  - Si queda al menos un partido sin empezar  → la apuesta vuelve a "abierta"
+    //    (reabre apuestas que el sistema viejo cerró antes de tiempo).
+    //  - Las "finalizada" (ya puntuadas) NO se tocan.
     let apuestasCerradasAuto = 0;
+    let apuestasReabiertasAuto = 0;
     try {
-      const apuestasAbiertas = getSheet_(SHEETS.APUESTAS, false)
-        .filter(a => a.estado === 'abierta' && yaVencio_(a.fecha_cierre));
-      apuestasAbiertas.forEach(a => {
-        updateField_(SHEETS.APUESTAS, a.id, 'estado', 'cerrada');
-        Logger.log(`  ⏰ Apuesta cerrada automáticamente: ${a.id} (${a.titulo})`);
-        apuestasCerradasAuto++;
+      const todosPartidosCierre = getSheet_(SHEETS.PARTIDOS, false);
+      const partidosMapCierre = new Map(todosPartidosCierre.map(p => [p.id, p]));
+      const apuestasGestionables = getSheet_(SHEETS.APUESTAS, false)
+        .filter(a => a.estado === 'abierta' || a.estado === 'cerrada');
+      apuestasGestionables.forEach(a => {
+        const ids = a.partidos_ids
+          ? String(a.partidos_ids).split(',').map(s => s.trim()).filter(Boolean)
+          : [];
+        if (!ids.length) return;
+        const algunoSinEmpezar = ids.some(id => {
+          const p = partidosMapCierre.get(id);
+          return p ? !partidoYaEmpezo_(p) : false;
+        });
+        const estadoDeseado = algunoSinEmpezar ? 'abierta' : 'cerrada';
+        if (a.estado === estadoDeseado) return;
+        updateField_(SHEETS.APUESTAS, a.id, 'estado', estadoDeseado);
+        if (estadoDeseado === 'cerrada') {
+          Logger.log(`  ⏰ Cerrada (todos los partidos comenzaron): ${a.id} (${a.titulo})`);
+          apuestasCerradasAuto++;
+        } else {
+          Logger.log(`  🔓 Reabierta (hay partidos sin empezar): ${a.id} (${a.titulo})`);
+          apuestasReabiertasAuto++;
+        }
       });
-      if (apuestasCerradasAuto > 0) {
-        registrarAuditoria_('SISTEMA', 'CIERRE_AUTO', `${apuestasCerradasAuto} apuestas cerradas por vencimiento`);
+      if (apuestasCerradasAuto > 0 || apuestasReabiertasAuto > 0) {
+        registrarAuditoria_('SISTEMA', 'SYNC_ESTADO', `${apuestasCerradasAuto} cerradas, ${apuestasReabiertasAuto} reabiertas`);
       }
     } catch (err) {
-      Logger.log('Error cerrando apuestas vencidas: ' + err.message);
+      Logger.log('Error sincronizando estado de apuestas: ' + err.message);
     }
 
     // ── PASO 2: Procesar partidos finalizados y puntuar predicciones ──

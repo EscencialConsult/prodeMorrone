@@ -1,4 +1,4 @@
-﻿import { timeLeft, isBetOpen } from '../../utils/index.js'
+﻿import { betHasOpenMatches, betEffectiveCloseIso, countdownTo } from '../../utils/index.js'
 import { useAuth } from '../../hooks/useAuth.jsx'
 
 /* â”€â”€ Colores y labels por estado de pronóstico â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -85,7 +85,7 @@ function Pill({ children, color, bg, border, icon }) {
 export default function BetCard({ bet, predictionsMap, onPredict }) {
   const { user, isPro } = useAuth()
 
-  const open = isBetOpen(bet)
+  const open = betHasOpenMatches(bet)
   const isLive = bet.partidos?.some(p => p.estado === 'en_vivo')
   const allFinished = bet.partidos?.length > 0 && bet.partidos.every(p => p.estado === 'finalizado')
 
@@ -102,7 +102,7 @@ export default function BetCard({ bet, predictionsMap, onPredict }) {
 
   const matchCount = bet.partidos?.length || 0
   const hasAnyPrediction = bet.partidos?.some(p => predictionsMap?.[p.id])
-  const remaining = timeLeft(bet.fecha_cierre)
+  const remaining = countdownTo(betEffectiveCloseIso(bet))
   const isClosingSoon = open && remaining !== 'Cerrada' && !remaining.includes('d')
 
   /* â”€â”€ NUEVO: Lógica de grupal / rol del usuario â”€â”€â”€â”€â”€â”€â”€ */

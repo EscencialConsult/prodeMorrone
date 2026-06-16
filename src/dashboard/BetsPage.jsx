@@ -15,13 +15,14 @@ import AppShell from './AppShell.jsx'
 import { useBets } from '../hooks/useBets.jsx'
 import { useAuth } from '../hooks/useAuth.jsx'
 import PredictModal from '../components/user/PredictModal.jsx'
+import { betHasOpenMatches, betEffectiveCloseIso, countdownTo } from '../utils/index.js'
 
 /* â”€â”€ helpers â”€â”€ */
 function timeLeft(d){const diff=new Date(d)-Date.now();if(diff<=0)return'Cerrada';const h=Math.floor(diff/3600000);const m=Math.floor((diff%3600000)/60000);if(h>=24)return`${Math.floor(h/24)}d ${h%24}h`;if(h>0)return`${h}h ${m}m`;return`${m}m`}
 const CARD_BASE={background:'#fff',border:'1px solid #dedbd4',borderRadius:16,boxShadow:'0 1px 0 rgba(32,33,36,.04)'}
 const MUTED={fontSize:'.78rem',color:'#6f7377'}
 
-function isOpen(b){return b.estado==='abierta'}
+function isOpen(b){return betHasOpenMatches(b)}
 const FILTERS=[
   {key:'todas', label:'Todas'},
   {key:'activas', label:'Activas'},
@@ -56,7 +57,7 @@ function BetCard({bet,predsMap,onPredict}){
   const allDone=bet.partidos?.length>0&&bet.partidos.every(p=>p.estado==='finalizado')
   const stateKey=live?'en_vivo':allDone?'finalizada':open?'abierta':'cerrada'
   const s=STATE[stateKey]
-  const rem=timeLeft(bet.fecha_cierre)
+  const rem=countdownTo(betEffectiveCloseIso(bet))
   const mc=bet.partidos?.length||0
   const anyPred=bet.partidos?.some(p=>predsMap?.[p.id])
   const {user}=useAuth()
@@ -77,9 +78,9 @@ function BetCard({bet,predsMap,onPredict}){
             {bet.premio ? ` - Premio: ${bet.premio}` : ''}
             {open && rem !== 'Cerrada' ? ` - cierra ${rem}` : ''}
           </p>
-          {open && bet.fecha_cierre && (
+          {open && betEffectiveCloseIso(bet) && (
             <p style={{...MUTED,fontSize:'.65rem',margin:'.1rem 0 0',color:'#a9adb1'}}>
-              Cierre: {new Date(bet.fecha_cierre).toLocaleDateString('es-AR', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' })}
+              Cierre: {new Date(betEffectiveCloseIso(bet)).toLocaleDateString('es-AR', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' })}
             </p>
           )}
         </div>
@@ -150,11 +151,12 @@ export default function BetsPage(){
   function showToast(msg,ok=true){setToast({msg,ok});setTimeout(()=>setToast(null),3200)}
 
 const filtered = bets.filter(b => {
-  // Mostrar solo apuestas con estado "abierta"
-  if (filter === 'activas') return b.estado === 'abierta'
-  if (filter === 'cerradas') return b.estado === 'cerrada' || b.estado === 'finalizada'
-  // "Todas" muestra solo abiertas
-  return b.estado === 'abierta'
+  // "Editable" = tiene partidos sin empezar (no depende del campo estado).
+  const editable = betHasOpenMatches(b)
+  if (filter === 'activas') return editable
+  if (filter === 'cerradas') return !editable
+  // "Todas" muestra las que se pueden pronosticar
+  return editable
 })
 
   // Guardar predicciones una por una (funciona pero es más lento)

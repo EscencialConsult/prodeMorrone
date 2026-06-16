@@ -7,7 +7,7 @@ import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { useBets } from '../../hooks/useBets.jsx'
 import { useAuth } from '../../hooks/useAuth.jsx'
-import { timeLeft, isBetOpen } from '../../utils/index.js'
+import { matchHasStarted, betHasOpenMatches, betEffectiveCloseIso, countdownTo, fmtFecha } from '../../utils/index.js'
 
 function esEliminatoria(fase) {
   if (!fase) return false
@@ -136,8 +136,8 @@ export default function PredictModal({ bet, onSubmit, onClose, loading }) {
 
   if (!bet) return null
 
-  const open = isBetOpen(bet)
-  const remaining = timeLeft(bet.fecha_cierre)
+  const open = betHasOpenMatches(bet)
+  const remaining = countdownTo(betEffectiveCloseIso(bet))
   const isClosingSoon = open && remaining !== 'Cerrada' && !remaining.includes('d')
   const totalMatches = bet.partidos?.length || 0
 
@@ -167,6 +167,8 @@ export default function PredictModal({ bet, onSubmit, onClose, loading }) {
     const empatesSinClasificado = []
 
     for (const match of (bet.partidos || [])) {
+      // Cierre por partido: no enviar pronósticos de partidos ya iniciados
+      if (matchHasStarted(match)) continue
       const vals = scores[match.id]
       if (!vals) continue
       const pl = parseInt(vals.local, 10)
@@ -479,7 +481,14 @@ export default function PredictModal({ bet, onSubmit, onClose, loading }) {
             {bet.partidos?.map((match, idx) => {
               const isLive = match.estado === 'en_vivo'
               const isFinished = match.estado === 'finalizado'
-              const isDisabled = !open || isLive || isFinished || estaBloqueado
+              // Cierre POR PARTIDO: se bloquea al llegar su hora de inicio.
+              // `started` cubre en_vivo/finalizado y también el caso de kickoff
+              // pasado cuyo estado todavía figura "programado" en la planilla.
+              const started = matchHasStarted(match)
+              const isClosedByKickoff = started && !isLive && !isFinished
+              // Editable salvo que: el partido ya empezó, o la apuesta está finalizada (puntuada).
+              // El estado "cerrada" NO bloquea: manda el partido.
+              const isDisabled = started || bet.estado === 'finalizada' || estaBloqueado
               const sc = scores[match.id] || { local: '', visitante: '' }
               const hasScore = sc.local !== '' && sc.visitante !== ''
               const elim = esEliminatoria(match.fase)
@@ -534,7 +543,18 @@ export default function PredictModal({ bet, onSubmit, onClose, loading }) {
                           FIN
                         </span>
                       )}
-                      {!isLive && !isFinished && completo && (
+                      {isClosedByKickoff && (
+                        <span className="inline-flex items-center gap-1 bg-slate-500 text-white text-[8px] font-black tracking-wider px-2 py-0.5 rounded-full">
+                          CERRADO
+                        </span>
+                      )}
+                      {!isLive && !isFinished && !isClosedByKickoff && match.fecha_partido && (
+                        <span className="inline-flex items-center gap-1 bg-green-500/15 text-green-300 border border-green-500/40 text-[8px] font-black tracking-wider px-2 py-0.5 rounded-full whitespace-nowrap">
+                          <span className="w-1 h-1 rounded-full bg-green-400" />
+                          DISPONIBLE HASTA {fmtFecha(match.fecha_partido).toUpperCase()}
+                        </span>
+                      )}
+                      {!isLive && !isFinished && !isClosedByKickoff && completo && (
                         <span className="inline-flex items-center gap-1 bg-yellow-400 text-slate-900 text-[8px] font-black tracking-wider px-2 py-0.5 rounded-full">
                           <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4">
                             <polyline points="20 6 9 17 4 12" />

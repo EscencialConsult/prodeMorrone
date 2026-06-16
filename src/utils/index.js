@@ -161,6 +161,74 @@ export function isBetOpen(bet) {
   return bet.estado === 'abierta'
 }
 
+/**
+ * Cierre POR PARTIDO (estilo Sogefi).
+ * Un partido deja de aceptar pronósticos cuando llega su hora de inicio
+ * (fecha_partido) o cuando su estado ya no es "programado".
+ * `fecha_partido` viaja como ISO UTC real desde el backend, por eso se
+ * compara directamente con Date.now() (sin el ajuste de timeLeft()).
+ */
+export function matchHasStarted(match) {
+  if (!match) return true
+  const estado = match.estado
+  if (estado === 'en_vivo' || estado === 'finalizado' || estado === 'cancelado') return true
+  if (!match.fecha_partido) return false
+  const ts = new Date(match.fecha_partido).getTime()
+  if (isNaN(ts)) return false
+  return Date.now() >= ts
+}
+
+/** Inverso de matchHasStarted: el partido todavía acepta pronósticos */
+export function isMatchOpen(match) {
+  return !matchHasStarted(match)
+}
+
+/**
+ * Una apuesta es EDITABLE (estilo Sogefi) si no está finalizada (ya puntuada)
+ * y todavía tiene al menos un partido que no empezó. NO depende del campo
+ * `estado` de la apuesta: una apuesta marcada "cerrada" vuelve a ser editable
+ * si alguno de sus partidos sigue sin comenzar.
+ */
+export function betHasOpenMatches(bet) {
+  if (!bet) return false
+  if (bet.estado === 'finalizada') return false
+  return (bet.partidos || []).some(p => !matchHasStarted(p))
+}
+
+/**
+ * Cierre EFECTIVO de la apuesta = inicio del ÚLTIMO partido (ISO UTC real).
+ * Se calcula desde los partidos, no desde bet.fecha_cierre (que puede estar
+ * desactualizada en apuestas viejas). Sirve para el contador "faltan X".
+ */
+export function betEffectiveCloseIso(bet) {
+  let maxTs = -Infinity
+  for (const p of (bet?.partidos || [])) {
+    if (!p.fecha_partido) continue
+    const ts = new Date(p.fecha_partido).getTime()
+    if (!isNaN(ts) && ts > maxTs) maxTs = ts
+  }
+  if (maxTs > -Infinity) return new Date(maxTs).toISOString()
+  return bet?.fecha_cierre || ''
+}
+
+/**
+ * Cuenta regresiva "5d 20h" / "3h 10m" / "45m" hasta una fecha ISO UTC real.
+ * A diferencia de timeLeft(), NO aplica el ajuste de zona horaria argentina,
+ * porque fecha_partido ya viaja como UTC real desde el backend.
+ */
+export function countdownTo(iso) {
+  if (!iso) return ''
+  const ts = new Date(iso).getTime()
+  if (isNaN(ts)) return ''
+  const diff = ts - Date.now()
+  if (diff <= 0) return 'Cerrada'
+  const h = Math.floor(diff / 3600000)
+  const m = Math.floor((diff % 3600000) / 60000)
+  if (h >= 24) return `${Math.floor(h / 24)}d ${h % 24}h`
+  if (h > 0) return `${h}h ${m}m`
+  return `${m}m`
+}
+
 /** Clases CSS para el estado de una apuesta */
 export function betStatusClass(estado) {
   return {
